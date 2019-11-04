@@ -5,6 +5,8 @@ A new Flutter project.
 ## Getting Started
 
 This project is a starting point for a Flutter application "UOIT GO"
+1. run `flutter pub get` first.
+2. `flutter run`.
 
 ## TODO List
 
