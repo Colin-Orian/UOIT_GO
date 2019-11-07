@@ -62,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         body: TabBarView(
           children: <Widget>[
-            characterPage.build(context),
+            characterPage,
             mapPage,
             academicPage.build(context),
             

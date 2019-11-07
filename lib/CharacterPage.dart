@@ -1,37 +1,60 @@
 import 'package:flutter/material.dart';
+import 'Character.dart';
 
-class CharacterPage extends StatelessWidget{
+class CharacterPage extends StatefulWidget{
+  @override
+  _CharacterPageState createState() => _CharacterPageState();
+}
+class _CharacterPageState extends State<CharacterPage>{
+  Character _character;
+  //TODO switch to List<Items>
+  List<String> items=[];
+  _CharacterPageState(){
+    for(int i=0;i<30;i++){
+      items.add('$i');
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        width: 10,
-        height: 10,
-        child: Text("this is test"),
+    return Column(
+      children: <Widget>[
+        _characterProfile(),
+        _loadoutProfile(),
+        _inventoryProfile(),
+      ]
+    );
+  }
+
+  Widget _characterProfile(){
+    return Container(
+      child: Text("hi"),
+    );
+  }
+
+  Widget _loadoutProfile(){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Text("loadout1"),
+        Text("loadout2"),
+        Text("loadout3"),
+        Text("loadout4"),
+      ],
+    );
+  }
+
+  Widget _inventoryProfile(){
+    return SizedBox(
+      height: MediaQuery.of(context).size.height*0.5,
+      child: GridView.count(
+      crossAxisCount: 8,
+      children: List.generate(100, (index){
+        return Text('item');
+      })
       )
     );
   }
 }
 
-class Character{
-  double health;
-  double motivation;
-
-  List _inventory =[];
-  List _loadout = [];
-  List _activities = [];
-
-  Character({health,motivation});
-
-  List getInv(){
-    return _inventory;
-  }
-
-  List getLoad(){
-    return _loadout;
-  }
-  
-  List getAct(){
-    return _activities;
-  }
-}
