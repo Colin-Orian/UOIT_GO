@@ -16,6 +16,7 @@ class Objective extends StatelessWidget{
 
   
 
+/*
 //Creates an widget that displays the data.
   @override
   Widget build(BuildContext context) {
@@ -34,6 +35,21 @@ class Objective extends StatelessWidget{
         ),
         decoration: BoxDecoration(
         color: typeColor[type],
+      ),
+    );*/
+
+  @override
+  Widget build(BuildContext context){
+    return ListTile(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween ,
+        children: <Widget>[
+          Icon(Icons.update),
+          Text(goal),
+          Text(turnInLoc),
+          Text(reward),
+          Icon(Icons.info),
+        ],
       ),
     );
   }
