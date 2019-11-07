@@ -11,6 +11,45 @@ class MapPage extends StatefulWidget{
 class _MapPageState extends State<MapPage>{
   String location = "UA";
   Objective objective = new Objective('Academic', 'pizza', 'get pizza', 'UA', 'good grades');
+
+Future<void> turnIn(BuildContext context){
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context){
+        return AlertDialog(
+          title: Text("Turn in event?"),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('yes'),
+              onPressed: (){
+                setState(() {
+                  objective = new Objective('Health',  'Done', 'done', 'Done', 'Done');
+                });
+
+                Navigator.of(context).pop();
+              }
+            ),
+
+            FlatButton(
+              child: Text('no'),
+              onPressed: (){
+                
+                Navigator.of(context).pop();
+              },),
+          ],
+        );
+      }
+    );
+  }
+
+  GestureDetector createGesture(Objective obj){
+    return GestureDetector(
+      child: obj.build(context),
+
+      onTap: () => turnIn(context),
+    );
+  }
   void openActivites(){
     //Open a new navigator that contains different objectives
     //navigator.push(Activities(location)).... /shrug
@@ -28,7 +67,7 @@ class _MapPageState extends State<MapPage>{
           Text(
             "Current Location: $location",
             style: TextStyle(fontWeight: FontWeight.bold),),
-          objective.build(context),
+          createGesture(objective),
           RaisedButton(
             child: Text("Activites Here"),
             onPressed: () => openActivites(),

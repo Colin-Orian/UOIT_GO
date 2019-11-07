@@ -14,22 +14,24 @@ class Objective extends StatelessWidget{
 
   Objective(this.type, this.descip, this.goal, this.turnInLoc, this.reward);
 
+  
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
         children: <Widget>[
           Text(type),
-          Row(
-            children: <Widget>[
-              Text('Goal: $goal'),
-              Icon(Icons.check_box_outline_blank),
-            ],
-          ),
-          Text('Reward: $reward'),
-        ],
-      ),
-      decoration: BoxDecoration(
+             Row(
+              children: <Widget>[
+                Text('Goal: $goal'),
+                Icon(Icons.check_box_outline_blank),
+              ],
+            ),
+            Text('Reward: $reward'),
+          ],
+        ),
+        decoration: BoxDecoration(
         color: typeColor[type],
       ),
     );
