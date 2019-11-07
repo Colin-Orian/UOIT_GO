@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'Objective.dart';
+import 'ActivitesPage.dart';
 class MapPage extends StatefulWidget{
   MapPage({Key key, this.title}) : super(key: key);
   final String title;
@@ -12,6 +13,7 @@ class _MapPageState extends State<MapPage>{
   String location = "UA";
   Objective objective = new Objective('Academic', 'pizza', 'get pizza', 'UA', 'good grades');
 
+//prompts the user if they want to turn in the objective. If they do, remove the current event
 Future<void> turnIn(BuildContext context){
     return showDialog(
       context: context,
@@ -22,6 +24,8 @@ Future<void> turnIn(BuildContext context){
           actions: <Widget>[
             FlatButton(
               child: Text('yes'),
+              //OnPressed will change the current objective to empty and do the required
+              //Changes to the character's inventory / stats
               onPressed: (){
                 setState(() {
                   objective = new Objective('Health',  'Done', 'done', 'Done', 'Done');
@@ -30,11 +34,9 @@ Future<void> turnIn(BuildContext context){
                 Navigator.of(context).pop();
               }
             ),
-
             FlatButton(
               child: Text('no'),
               onPressed: (){
-                
                 Navigator.of(context).pop();
               },),
           ],
@@ -43,6 +45,7 @@ Future<void> turnIn(BuildContext context){
     );
   }
 
+//Wraps the current objective in a GestureDetetor
   GestureDetector createGesture(Objective obj){
     return GestureDetector(
       child: obj.build(context),
@@ -51,8 +54,9 @@ Future<void> turnIn(BuildContext context){
     );
   }
   void openActivites(){
-    //Open a new navigator that contains different objectives
-    //navigator.push(Activities(location)).... /shrug
+    
+    Navigator.push(context,
+     MaterialPageRoute(builder: (context) =>  ActivitesPage(location:location)));
   }
 
   void openStore(){

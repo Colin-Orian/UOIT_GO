@@ -16,6 +16,7 @@ class Objective extends StatelessWidget{
 
   
 
+//Creates an widget that displays the data.
   @override
   Widget build(BuildContext context) {
     return Container(

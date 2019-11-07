@@ -42,6 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return DefaultTabController(
       length: 3,
+      initialIndex: 1,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,

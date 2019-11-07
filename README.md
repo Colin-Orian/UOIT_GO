@@ -27,3 +27,13 @@ This project is a starting point for a Flutter application "UOIT GO"
 - [ ] Shows Currently pinned objective
 - [ ] Shows basics of players well being.
 - [ ] Shows notifications of anything new
+
+
+### Part One Requirements
+- [X] Multiple screens, navigation 
+- [X] Dialogs/pickers
+- [ ] Snackbars 
+- [ ] Notifications
+- [ ] Local storage
+- [ ] Cloud storage
+- [ ] HTTP requests 
