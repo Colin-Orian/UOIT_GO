@@ -58,15 +58,13 @@ class _MyHomePageState extends State<MyHomePage> {
               
             ],
             indicatorWeight: 5,
-            
           ),
         ),
         body: TabBarView(
           children: <Widget>[
             characterPage,
             mapPage,
-            academicPage.build(context),
-            
+            AcademicPage(),
           ],
         ),
       ),
