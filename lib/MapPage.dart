@@ -21,7 +21,7 @@ class _MapPageState extends State<MapPage>{
   }
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[

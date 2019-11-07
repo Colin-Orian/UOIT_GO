@@ -45,26 +45,27 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
-          title: Text(
-            widget.title,
-            style: TextStyle(color: Colors.blue[300]),),
-          bottom: TabBar(
+          title:TabBar(
             tabs: <Widget>[
               Tab(icon: Icon(
                 Icons.person,
                 color: Colors.orange,)),
-              Tab(icon: Icon(Icons.school,
-                color: Colors.orange,)),
               Tab(icon: Icon(Icons.map,
                 color: Colors.orange,)),
+              Tab(icon: Icon(Icons.school,
+                color: Colors.orange,)),
+              
             ],
+            indicatorWeight: 5,
+            
           ),
         ),
         body: TabBarView(
           children: <Widget>[
             characterPage.build(context),
-            academicPage.build(context),
             mapPage,
+            academicPage.build(context),
+            
           ],
         ),
       ),
