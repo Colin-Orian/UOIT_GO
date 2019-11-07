@@ -1,6 +1,8 @@
 class Character{
-  double health;
-  double motivation;
+  double currentHealth;
+  double maxHealth;
+  double currentMotivation;
+  double maxMotivation;
 
   List _inventory =[];
   List _loadout = [];
