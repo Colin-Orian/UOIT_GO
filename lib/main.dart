@@ -10,11 +10,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Ontario Tech Go',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Ontario Tech Go'),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -44,12 +44,19 @@ class _MyHomePageState extends State<MyHomePage> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
+          backgroundColor: Colors.black,
+          title: Text(
+            widget.title,
+            style: TextStyle(color: Colors.blue[300]),),
           bottom: TabBar(
             tabs: <Widget>[
-              Tab(icon: Icon(Icons.person)),
-              Tab(icon: Icon(Icons.school)),
-              Tab(icon: Icon(Icons.map)),
+              Tab(icon: Icon(
+                Icons.person,
+                color: Colors.orange,)),
+              Tab(icon: Icon(Icons.school,
+                color: Colors.orange,)),
+              Tab(icon: Icon(Icons.map,
+                color: Colors.orange,)),
             ],
           ),
         ),
@@ -57,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             characterPage.build(context),
             academicPage.build(context),
-            mapPage.build(context),
+            mapPage,
           ],
         ),
       ),
