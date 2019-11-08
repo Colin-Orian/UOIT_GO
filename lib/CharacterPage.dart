@@ -117,7 +117,7 @@ class _CharacterPageState extends State<CharacterPage>{
       height: MediaQuery.of(context).size.height*0.45,
       child: GridView.count(
       crossAxisCount: 8,
-      children: items.map((item)=>item.buildItem()).toList(),
+      children: items.map((item)=>item.buildItem(context)).toList(),
       )
     );
   }

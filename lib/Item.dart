@@ -21,15 +21,39 @@ class Item {
       return Colors.green[50];
     }
   }
-
-  Widget buildItem(){
+  Widget buildItem(BuildContext context){
     return Container(
       child: IconButton(
         icon: _picture,
+        onPressed: (){_itemDetailDialog(context);},
       ),
-      color:_chooseColor(),
+      color:Colors.blue,
     );
   }
+
+//TODO customize dialog for each item type.
+  Future<void>_itemDetailDialog(BuildContext context)async{
+    var chocie=await showDialog<bool>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          title: Text(_itemName),
+          children: <Widget>[
+            SimpleDialogOption(
+              child: Text('use'),
+              onPressed: (){Navigator.pop(context,true);},
+            ),
+            SimpleDialogOption(
+              child: Text('cancel'),
+              onPressed: (){Navigator.pop(context,false);},
+            )
+          ],
+        );
+      }
+    );
+  }
+
 }
 
 //items that will be consumed and affect health and motivation
@@ -51,6 +75,46 @@ class Consumable extends Item{
   }
   double getHealthChange(){return _healthChange;}
   double getMotivationChange(){return _motivationChange;}
+/*
+  @override
+  Widget buildItem(){
+    return Container(
+      child: IconButton(
+        icon: _picture,
+        onPressed:(){ _itemDetailDialog();},
+      ),
+      color:_chooseColor(),
+    );
+  }
+
+  void _itemDetailDialog() {
+    showDialog(
+      //context: context,
+      barrierDismissible:true,
+      builder: (BuildContext context){
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+          backgroundColor: _chooseColor(),
+          child: _itemDetailWidget()
+        );
+      }
+    );
+  }
+
+  Widget _itemDetailWidget(){
+    return Column(
+      children: <Widget>[
+        Row(
+          children: <Widget>[
+            _picture,
+
+          ],
+        )
+      ],
+    );
+  }*/
 }
 
 
@@ -72,4 +136,14 @@ class Modifier extends Item{
   }
   double getMaxHealthChange(){return _maxHealthChange;}
   double getMaxMotivationChange(){return _maxMotivationChange;}
+/*
+  @override
+  Widget buildItem(){
+    return Container(
+      child: IconButton(
+        icon: _picture,
+      ),
+      color:_chooseColor(),
+    );
+  }*/
 }
