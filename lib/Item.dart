@@ -27,7 +27,7 @@ class Item {
         icon: _picture,
         onPressed: (){_itemDetailDialog(context);},
       ),
-      color:Colors.blue,
+      color:_chooseColor(),
     );
   }
 
@@ -37,7 +37,55 @@ class Item {
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        return SimpleDialog(
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          elevation: 1.0,
+          backgroundColor: _chooseColor(),
+          //Actual Widget shown inside of dialog box
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.all(5.0),
+                    height: MediaQuery.of(context).size.height*0.1,
+                    child:_picture
+                  ),
+                  Text(
+                    "$_itemName",
+                    style: TextStyle(
+                      fontSize: 22.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal:5.0),
+                width: MediaQuery.of(context).size.width*0.8,
+                child: Text(_description, textAlign: TextAlign.center,),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  SimpleDialogOption(
+                    child: Text('cancel'),
+                    onPressed: (){Navigator.pop(context,false);},
+                  ),
+                  SimpleDialogOption(
+                    child: Text('use'),
+                    onPressed: (){Navigator.pop(context,true);},
+                  )
+                ],
+              )
+            ],
+          ),
+        );
+        /*return SimpleDialog(
           title: Text(_itemName),
           children: <Widget>[
             SimpleDialogOption(
@@ -49,7 +97,7 @@ class Item {
               onPressed: (){Navigator.pop(context,false);},
             )
           ],
-        );
+        );*/
       }
     );
   }

@@ -19,7 +19,7 @@ class _CharacterPageState extends State<CharacterPage>{
             type: "Consumable",
             picture: Icon(Icons.fastfood),
             itemName: "fastFood${i/2}",
-            description: "junk food for some quick motivation",
+            description: "junk food for some quick motivation to really help move forward",
             healthChange: i*-0.5,
             motivationChange: i*0.5,
           )
