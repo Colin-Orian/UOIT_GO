@@ -17,7 +17,7 @@ This project is a starting point for a Flutter application "UOIT GO"
 - [ ] Shows longer list of all player activities needed including school tasks
 
 ### Academic Page
-- [ ] Shows current courses and grades.
+- [x] Shows current courses and grades.
 - [ ] Can switch to show overall progression to graduation
 
 ### Main Map Page

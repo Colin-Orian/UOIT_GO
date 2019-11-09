@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'Character.dart';
+import 'Item.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class CharacterPage extends StatefulWidget{
@@ -9,10 +10,32 @@ class CharacterPage extends StatefulWidget{
 class _CharacterPageState extends State<CharacterPage>{
   Character _character;
   //TODO switch to List<Items>
-  List<String> items=[];
+  List<Item> items=[];
   _CharacterPageState(){
     for(int i=0;i<30;i++){
-      items.add('$i');
+      if(i%2==0){
+        items.add(
+          new Consumable(
+            type: "Consumable",
+            picture: Icon(Icons.fastfood),
+            itemName: "fastFood${i/2}",
+            description: "junk food for some quick motivation to really help move forward",
+            healthChange: i*-0.5,
+            motivationChange: i*0.5,
+          )
+        );
+      }else{
+        items.add(
+          new Modifier(
+            type: "Modifier",
+            picture: Icon(Icons.headset),
+            itemName: "headset${i/2}",
+            description: "headset for fun",
+            maxHealthChange: 0.05*i,
+            maxMotivationChange: 0.05*i,
+          )
+        );
+      }
     }
   }
 
@@ -94,9 +117,7 @@ class _CharacterPageState extends State<CharacterPage>{
       height: MediaQuery.of(context).size.height*0.45,
       child: GridView.count(
       crossAxisCount: 8,
-      children: List.generate(64, (index){
-        return Text('item $index');
-      })
+      children: items.map((item)=>item.buildItem(context)).toList(),
       )
     );
   }
