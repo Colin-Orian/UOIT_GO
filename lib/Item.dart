@@ -23,11 +23,21 @@ class Item {
   }
   Widget buildItem(BuildContext context){
     return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(width: 1.0,color:Colors.black),
+          left: BorderSide(width: 1.0,color:Colors.black),
+          right: BorderSide(width: 1.0,color:Colors.black),
+          bottom: BorderSide(width: 1.0,color:Colors.black),
+        ),
+        color: _chooseColor()
+      ),
       child: IconButton(
         icon: _picture,
         onPressed: (){_itemDetailDialog(context);},
+        //color: _chooseColor(),
       ),
-      color:_chooseColor(),
+      //color:_chooseColor(),
     );
   }
 

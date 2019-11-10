@@ -11,6 +11,7 @@ class _CharacterPageState extends State<CharacterPage>{
   Character _character;
   //TODO switch to List<Items>
   List<Item> items=[];
+  List<Modifier> loadout= [];
   _CharacterPageState(){
     for(int i=0;i<30;i++){
       if(i%2==0){
@@ -54,13 +55,13 @@ class _CharacterPageState extends State<CharacterPage>{
 //Widget of the profile, with the health, motivation, and name
   Widget _characterProfile(){
     return Container(
-      height: MediaQuery.of(context).size.height*0.25,
+      padding: EdgeInsets.symmetric(horizontal:15.0,vertical:10.0),
+      height: MediaQuery.of(context).size.height*0.15,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           //character name
           Text('New Student Person'),
-
           //character health progress bar
           LinearPercentIndicator(
             width: MediaQuery.of(context).size.width-100,
@@ -100,24 +101,44 @@ class _CharacterPageState extends State<CharacterPage>{
   Widget _loadoutProfile(){
     return Container(
       height: MediaQuery.of(context).size.height*0.15,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          Text("loadout1"),
-          Text("loadout2"),
-          Text("loadout3"),
-          Text("loadout4"),
+          Text("Loadout (4/4)"),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              items[1].buildItem(context),
+              items[1].buildItem(context),
+              items[1].buildItem(context),
+              items[1].buildItem(context),
+            ],
+          )
         ],
       )
     );
   }
 
   Widget _inventoryProfile(){
-    return SizedBox(
-      height: MediaQuery.of(context).size.height*0.45,
-      child: GridView.count(
-      crossAxisCount: 8,
-      children: items.map((item)=>item.buildItem(context)).toList(),
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 5.0,vertical:5.0),
+      child: Column(
+        children:<Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Icon(Icons.work),
+              Text("Storage (${items.length}/64)"),
+            ],
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height*0.4,
+            child: GridView.count(
+              crossAxisCount: 8,
+              children: items.map((item)=>item.buildItem(context)).toList(),
+            )
+          ),
+        ]
       )
     );
   }
