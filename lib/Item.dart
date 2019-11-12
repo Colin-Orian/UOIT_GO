@@ -32,6 +32,7 @@ class Item {
     }
   }
 
+//Used for building each of the items
   Widget buildItem(BuildContext context){
     return Container(
       decoration: BoxDecoration(
