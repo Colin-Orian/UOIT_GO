@@ -16,11 +16,22 @@ class Item {
   String getType(){return this._type;}
   Color _chooseColor(){
     if(_type=="Consumable"){
-      return Colors.red[100];
+      return Colors.orange[100];
     }else{
-      return Colors.green[50];
+      return Colors.blue[50];
     }
   }
+
+  Color numColor(double value){
+    if(value>0){
+      return Colors.green;
+    }else if(value<0){
+      return Colors.red;
+    }else{
+      return Colors.black;
+    }
+  }
+
   Widget buildItem(BuildContext context){
     return Container(
       decoration: BoxDecoration(
@@ -41,6 +52,34 @@ class Item {
     );
   }
 
+  Widget itemTitle(BuildContext context){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.all(5.0),
+          height: MediaQuery.of(context).size.height*0.1,
+          child:_picture
+        ),
+        Text(
+          "$_itemName",
+          style: TextStyle(
+            fontSize: 22.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget itemDesc(BuildContext context){
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal:5.0),
+      width: MediaQuery.of(context).size.width*0.8,
+      child: Text(_description, textAlign: TextAlign.center,),
+    );
+  }
+
 //TODO customize dialog for each item type.
   Future<void>_itemDetailDialog(BuildContext context)async{
     var chocie=await showDialog<bool>(
@@ -57,28 +96,8 @@ class Item {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.all(5.0),
-                    height: MediaQuery.of(context).size.height*0.1,
-                    child:_picture
-                  ),
-                  Text(
-                    "$_itemName",
-                    style: TextStyle(
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal:5.0),
-                width: MediaQuery.of(context).size.width*0.8,
-                child: Text(_description, textAlign: TextAlign.center,),
-              ),
+              itemTitle(context),
+              itemDesc(context),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
@@ -95,19 +114,6 @@ class Item {
             ],
           ),
         );
-        /*return SimpleDialog(
-          title: Text(_itemName),
-          children: <Widget>[
-            SimpleDialogOption(
-              child: Text('use'),
-              onPressed: (){Navigator.pop(context,true);},
-            ),
-            SimpleDialogOption(
-              child: Text('cancel'),
-              onPressed: (){Navigator.pop(context,false);},
-            )
-          ],
-        );*/
       }
     );
   }
@@ -133,46 +139,75 @@ class Consumable extends Item{
   }
   double getHealthChange(){return _healthChange;}
   double getMotivationChange(){return _motivationChange;}
-/*
-  @override
-  Widget buildItem(){
-    return Container(
-      child: IconButton(
-        icon: _picture,
-        onPressed:(){ _itemDetailDialog();},
-      ),
-      color:_chooseColor(),
-    );
-  }
 
-  void _itemDetailDialog() {
-    showDialog(
-      //context: context,
-      barrierDismissible:true,
-      builder: (BuildContext context){
+  @override
+  Future<void>_itemDetailDialog(BuildContext context)async{
+    var chocie=await showDialog<bool>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
         return Dialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5.0),
+            borderRadius: BorderRadius.circular(15.0),
           ),
+          elevation: 1.0,
           backgroundColor: _chooseColor(),
-          child: _itemDetailWidget()
+          //Actual Widget shown inside of dialog box
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              itemTitle(context),
+              itemDesc(context),
+              Padding(padding: EdgeInsets.symmetric(vertical: 4.0),),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Text("Health",textAlign: TextAlign.center,),
+                  Text("Motivation",textAlign: TextAlign.center,),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Text(
+                    "$_healthChange",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: numColor(_healthChange),
+                      fontSize: 30.0,
+                    ),
+                  ),
+                  Text(
+                    "$_motivationChange",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: numColor(_motivationChange),
+                      fontSize: 30.0,
+                    ),
+                  )
+                ],
+              ),
+              Padding(padding: EdgeInsets.symmetric(vertical: 4.0),),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  SimpleDialogOption(
+                    child: Text('cancel'),
+                    onPressed: (){Navigator.pop(context,false);},
+                  ),
+                  SimpleDialogOption(
+                    child: Text('use'),
+                    onPressed: (){Navigator.pop(context,true);},
+                  )
+                ],
+              )
+            ],
+          ),
         );
       }
     );
   }
 
-  Widget _itemDetailWidget(){
-    return Column(
-      children: <Widget>[
-        Row(
-          children: <Widget>[
-            _picture,
-
-          ],
-        )
-      ],
-    );
-  }*/
 }
 
 
@@ -194,14 +229,72 @@ class Modifier extends Item{
   }
   double getMaxHealthChange(){return _maxHealthChange;}
   double getMaxMotivationChange(){return _maxMotivationChange;}
-/*
+
   @override
-  Widget buildItem(){
-    return Container(
-      child: IconButton(
-        icon: _picture,
-      ),
-      color:_chooseColor(),
+  Future<void>_itemDetailDialog(BuildContext context)async{
+    var chocie=await showDialog<bool>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          elevation: 1.0,
+          backgroundColor: _chooseColor(),
+          //Actual Widget shown inside of dialog box
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              itemTitle(context),
+              itemDesc(context),
+              Padding(padding: EdgeInsets.symmetric(vertical: 4.0),),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Text("Health",textAlign: TextAlign.center,),
+                  Text("Motivation",textAlign: TextAlign.center,),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Text(
+                    "$_maxHealthChange",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: numColor(_maxHealthChange),
+                      fontSize: 30.0,
+                    ),
+                  ),
+                  Text(
+                    "$_maxMotivationChange",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: numColor(_maxMotivationChange),
+                      fontSize: 30.0,
+                    ),
+                  )
+                ],
+              ),
+              Padding(padding: EdgeInsets.symmetric(vertical: 4.0),),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  SimpleDialogOption(
+                    child: Text('cancel'),
+                    onPressed: (){Navigator.pop(context,false);},
+                  ),
+                  SimpleDialogOption(
+                    child: Text('use'),
+                    onPressed: (){Navigator.pop(context,true);},
+                  )
+                ],
+              )
+            ],
+          ),
+        );
+      }
     );
-  }*/
+  }
 }

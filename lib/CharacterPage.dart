@@ -4,18 +4,22 @@ import 'Item.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class CharacterPage extends StatefulWidget{
+
+
   @override
   _CharacterPageState createState() => _CharacterPageState();
 }
+
+
 class _CharacterPageState extends State<CharacterPage>{
-  Character _character;
-  //TODO switch to List<Items>
-  List<Item> items=[];
-  List<Modifier> loadout= [];
+  //Test Character
+  Character _character=new Character(health: 100.0,motivation: 30.0,invSize: 54,name: "Amazing Student");
+
   _CharacterPageState(){
+    //Fills 30 items for testing
     for(int i=0;i<30;i++){
       if(i%2==0){
-        items.add(
+        _character.addItemInv(
           new Consumable(
             type: "Consumable",
             picture: Icon(Icons.fastfood),
@@ -26,14 +30,14 @@ class _CharacterPageState extends State<CharacterPage>{
           )
         );
       }else{
-        items.add(
+        _character.addItemInv(
           new Modifier(
             type: "Modifier",
             picture: Icon(Icons.headset),
             itemName: "headset${i/2}",
             description: "headset for fun",
-            maxHealthChange: 0.05*i,
-            maxMotivationChange: 0.05*i,
+            maxHealthChange: i*1.0,
+            maxMotivationChange: i*1.0,
           )
         );
       }
@@ -61,20 +65,21 @@ class _CharacterPageState extends State<CharacterPage>{
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           //character name
-          Text('New Student Person'),
+          Text(_character.name),
+
           //character health progress bar
           LinearPercentIndicator(
             width: MediaQuery.of(context).size.width-100,
             alignment: MainAxisAlignment.end,
             center: Text(
-              "50/100",
+              "${_character.currentHealth}/${_character.maxHealth}",
               style: TextStyle(color: Colors.black),
               ),
             leading: Text("health",
             style: TextStyle(color: Colors.black),
             ),
             lineHeight: MediaQuery.of(context).size.height*0.03,
-            percent: 50/100,
+            percent: _character.currentHealth/_character.maxHealth,
             progressColor: Colors.red,
           ),
 
@@ -83,14 +88,14 @@ class _CharacterPageState extends State<CharacterPage>{
             width: MediaQuery.of(context).size.width-100,
             alignment: MainAxisAlignment.end,
             center: Text(
-              "10/25",
+              "${_character.currentMotivation}/${_character.maxMotivation}",
               style: TextStyle(color: Colors.black),
               ),
             leading: Text("motivaton",
             style: TextStyle(color: Colors.black),
             ),
             lineHeight: MediaQuery.of(context).size.height*0.03,
-            percent: 10/25,
+            percent: _character.currentMotivation/_character.maxMotivation,
             progressColor: Colors.blue,
           ),
         ],
@@ -108,10 +113,10 @@ class _CharacterPageState extends State<CharacterPage>{
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              items[1].buildItem(context),
-              items[1].buildItem(context),
-              items[1].buildItem(context),
-              items[1].buildItem(context),
+              _character.getInv()[1].buildItem(context),
+              _character.getInv()[1].buildItem(context),
+              _character.getInv()[1].buildItem(context),
+              _character.getInv()[1].buildItem(context),
             ],
           )
         ],
@@ -128,14 +133,14 @@ class _CharacterPageState extends State<CharacterPage>{
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Icon(Icons.work),
-              Text("Storage (${items.length}/64)"),
+              Text("Storage (${_character.getInv().length}/64)"),
             ],
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height*0.4,
             child: GridView.count(
               crossAxisCount: 8,
-              children: items.map((item)=>item.buildItem(context)).toList(),
+              children: _character.getInv().map((item)=>item.buildItem(context)).toList(),
             )
           ),
         ]
