@@ -14,29 +14,19 @@ class Objective extends StatelessWidget{
 
   Objective(this.type, this.descip, this.goal, this.turnInLoc, this.reward);
 
+  void moreInfo(BuildContext context){
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context){
+        return AlertDialog(
+          title: Text(goal),
+          content: Text(descip),
+        );
+      }
+    );
+  }
   
-
-/*
-//Creates an widget that displays the data.
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Text(type),
-             Row(
-              children: <Widget>[
-                Text('Goal: $goal'),
-                Icon(Icons.check_box_outline_blank),
-              ],
-            ),
-            Text('Reward: $reward'),
-          ],
-        ),
-        decoration: BoxDecoration(
-        color: typeColor[type],
-      ),
-    );*/
 
   @override
   Widget build(BuildContext context){
@@ -44,11 +34,14 @@ class Objective extends StatelessWidget{
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween ,
         children: <Widget>[
-          Icon(Icons.update),
           Text(goal),
           Text(turnInLoc),
           Text(reward),
-          Icon(Icons.info),
+          IconButton(
+            icon: Icon(Icons.info),
+            onPressed: () => moreInfo(context),
+          ),
+          
         ],
       ),
     );

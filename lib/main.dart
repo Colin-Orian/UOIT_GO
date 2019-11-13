@@ -38,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     characterPage = CharacterPage();
     academicPage =AcademicPage();
-    mapPage =MapPage();
+    mapPage =MapPage(context:context);
 
     return DefaultTabController(
       length: 3,
