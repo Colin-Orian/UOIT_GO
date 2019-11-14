@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'Course.dart';
 import 'package:flip_card/flip_card.dart';
 
@@ -41,26 +42,46 @@ class AcademicPageState extends State<AcademicPage>{
             _buildCoures(courses[7]),
             _buildCoures(courses[8]),
           ];
-    List widgets = <Widget>[
-      Container(
-        child: Card(
-          child: Row(
-            children: <Widget>[
-              Text("Show total grades"),
-              Switch(
-                value: showOverall,
-                onChanged: (value){},
-              ),
-              ],
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Flexible(
+          child: ListView(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              children: builds
             ),
-          ),
-      )
-    ];
-    widgets.addAll(builds);
-    return  ListView(
-        children: widgets
-      );
+        ),
+         Container(
+            padding: EdgeInsets.symmetric(horizontal:15.0,vertical:10.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                //graduation progress bar
+                LinearPercentIndicator(
+                  width: MediaQuery.of(context).size.width-130,
+                  alignment: MainAxisAlignment.end,
+                  center: Text(
+                    //TODO From database
+                    "50%",
+                    style: TextStyle(color: Colors.black),
+                    ),
+                  leading: Text("Graduation: ",
+                  style: TextStyle(color: Colors.black),
+                  ),
+                  lineHeight: MediaQuery.of(context).size.height*0.03,
+                  //TODO From Database
+                  percent: 0.5,
+                  progressColor: Colors.green,
+                )],
+                )
+          )
+      ],
+    );
   }
+
+
+  // Build each course card
 
   Container _buildCoures(Course course){
     Color backgroundColor = course.getColor();
@@ -73,6 +94,9 @@ class AcademicPageState extends State<AcademicPage>{
           ],
       ),
       margin: EdgeInsets.only(bottom: 5.0),
+      /*
+        Flip Card
+      */
       child: FlipCard(
         direction: FlipDirection.VERTICAL,
         front: Container(
