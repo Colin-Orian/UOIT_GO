@@ -14,6 +14,8 @@ class Objective extends StatelessWidget{
 
   Objective(this.type, this.descip, this.goal, this.turnInLoc, this.reward);
 
+
+  //Displays a pop up that gives more information about the objective
   void moreInfo(BuildContext context){
     showDialog(
       context: context,

@@ -23,6 +23,7 @@ class _MapPageState extends State<MapPage>{
   String location = "UA";
   Objective objective = new Objective('Academic', 'pizza', 'get pizza', 'UA', 'good grades');
 
+  //Creates a button to turn in the current objected. disable the button if you aren't in the required location
   Widget turnInButton(){
     if(objective.turnInLoc == location){
       return RaisedButton(
@@ -78,6 +79,8 @@ void turnIn(){
     );
   }
 
+
+//Returns a row of the player's stats
 Row createStats(){
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
@@ -96,6 +99,7 @@ Row createStats(){
   );
 }
 
+//Open a listview of all the activites at the current location
   void openActivites(){
     
     Navigator.push(context,
