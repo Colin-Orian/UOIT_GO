@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong/latlong.dart';
 import 'Objective.dart';
 import 'ActivitesPage.dart';
+import 'MapInfo.dart';
+
 class MapPage extends StatefulWidget{
   MapPage({Key key, this.title, this.context }) : super(key: key);
   final BuildContext context;
@@ -12,7 +16,7 @@ class MapPage extends StatefulWidget{
 
 class _MapPageState extends State<MapPage>{
   BuildContext context;
-
+  
   _MapPageState(BuildContext context){
     this.context =context;
   }
@@ -58,7 +62,7 @@ void turnIn(){
               child: Text('no'),
               onPressed: (){
                 Navigator.of(context).pop();
-              },),
+              },),   
           ],
         );
       }
@@ -123,6 +127,7 @@ Row createStats(){
             child: Text("Store Here"),
             onPressed: () => openStore(),
           ),
+          MapInfo(),
         ],
       ),
     );
