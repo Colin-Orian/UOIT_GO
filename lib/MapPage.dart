@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
+import 'package:location/location.dart';
 import 'Objective.dart';
 import 'ActivitesPage.dart';
 import 'MapInfo.dart';
@@ -16,16 +16,26 @@ class MapPage extends StatefulWidget{
 
 class _MapPageState extends State<MapPage>{
   BuildContext context;
-  
+  Location _location;
+  double _lat;
+  double _long;
   _MapPageState(BuildContext context){
     this.context =context;
+
+    _location = new Location();
+    _location.onLocationChanged().listen((LocationData currentLocation){
+      setState(() {
+        _lat =currentLocation.latitude;
+        _long =currentLocation.longitude;  
+      });      
+    });
   }
-  String location = "UA";
+  String building = "UA";
   Objective objective = new Objective('Academic', 'pizza', 'get pizza', 'UA', 'good grades');
 
   //Creates a button to turn in the current objected. disable the button if you aren't in the required location
   Widget turnInButton(){
-    if(objective.turnInLoc == location){
+    if(objective.turnInLoc == building){
       return RaisedButton(
         child: Text("Turn in"),
         onPressed: () => turnIn(),
@@ -103,7 +113,7 @@ Row createStats(){
   void openActivites(){
     
     Navigator.push(context,
-     MaterialPageRoute(builder: (context) =>  ActivitesPage(location:location)));
+     MaterialPageRoute(builder: (context) =>  ActivitesPage(location:building)));
   }
 
   void openStore(){
@@ -117,7 +127,7 @@ Row createStats(){
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Text(
-            "Current Location: $location",
+            "Current Location: $building",
             style: TextStyle(fontWeight: FontWeight.bold),),
           objective,
           Text("Player Stats"),
@@ -131,7 +141,7 @@ Row createStats(){
             child: Text("Store Here"),
             onPressed: () => openStore(),
           ),
-          MapInfo(),
+          MapInfo(context: context, lat: _lat, long: _long,),
         ],
       ),
     );

@@ -1,43 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
-import 'package:location/location.dart';
-class MapInfo extends StatefulWidget{
-  MapInfo({Key key, this.title, this.context }) : super(key: key);
-  final BuildContext context;
-  final String title;
-  @override
-  _MapInfoState createState() => _MapInfoState();
-}
+class MapInfo extends StatelessWidget{
+  MapInfo({this.context, double lat, double long}) :  _lat = lat, _long = long;
+  final double _lat;
+  final double _long;
+  final BuildContext context;  
+  final String _token = 'pk.eyJ1IjoiY29saW4tb3JpYW4iLCJhIjoiY2syeHNnMHo2MDBwYzNjbWR2aHMxazl0aCJ9.Iq-AqEiFitggCv909eKF-w';
 
-class _MapInfoState extends State{
-
-  FlutterMap _map;
-  Location _location;
-  String _userName = 'colin-orian';
-  String _account_id = 'cijucimbe000brbkt48d0dhcx';
-  String _token = 'pk.eyJ1IjoiY29saW4tb3JpYW4iLCJhIjoiY2syeHNnMHo2MDBwYzNjbWR2aHMxazl0aCJ9.Iq-AqEiFitggCv909eKF-w';
-  double _lat = 43.94542;
-  double _long = -78.89668;
-  int _zoom = 19;
-
-  _MapInfoState(){
-    updateLocation();
-  }
-//Creates a listener that will updated the latitude and longitue each time it changes
-  void updateLocation(){
-    _location = new Location();
-    _location.onLocationChanged().listen((LocationData currentLocation){
-      setState(() {
-        _lat =currentLocation.latitude;
-        _long =currentLocation.longitude;  
-      });      
-    });
-  } 
-  
   @override
   Widget build(BuildContext context) {
-    updateLocation();
     return Container(
       width:MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height -336,
@@ -75,3 +47,7 @@ class _MapInfoState extends State{
     );
   }
 }
+  
+
+  
+  
