@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'Character.dart';
 import 'CharacterPage.dart';
 import 'AcademicPage.dart';
 import 'MapPage.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
-
+  
   final String title;
 
   @override
@@ -30,15 +31,16 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  Character testCharacter =Character(health: 100.0, motivation: 25.0, invSize: 54, name: 'Amazing Student');
   CharacterPage characterPage;
   AcademicPage academicPage;
   MapPage mapPage;
 
   @override
   Widget build(BuildContext context) {
-    characterPage = CharacterPage();
+    characterPage = CharacterPage(character: testCharacter);
     academicPage =AcademicPage();
-    mapPage =MapPage(context:context);
+    mapPage =MapPage(context:context, character: testCharacter,);
 
     return DefaultTabController(
       length: 3,
@@ -61,6 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         body: TabBarView(
+          physics: NeverScrollableScrollPhysics(), //Disable the swipe because it messed up with the map
           children: <Widget>[
             characterPage,
             mapPage,

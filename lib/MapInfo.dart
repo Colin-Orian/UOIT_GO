@@ -8,12 +8,14 @@ class MapInfo extends StatelessWidget{
   final BuildContext context;  
   final String _token = 'pk.eyJ1IjoiY29saW4tb3JpYW4iLCJhIjoiY2syeHNnMHo2MDBwYzNjbWR2aHMxazl0aCJ9.Iq-AqEiFitggCv909eKF-w';
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width:MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height -336,
-      child: FlutterMap(
+  Widget loadMap(){
+    if(_lat == null || _long == null){
+      return Container(
+        height: 100,
+        child: CircularProgressIndicator(),
+      );
+    }
+    return FlutterMap(
         options: MapOptions(
           minZoom: 17.0,
           center: new LatLng(_lat, _long),
@@ -43,7 +45,15 @@ class MapInfo extends StatelessWidget{
             ],
           ),
         ],
-      ),
+      );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width:MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height -336,
+      child: loadMap(),
     );
   }
 }

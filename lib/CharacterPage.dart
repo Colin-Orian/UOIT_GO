@@ -4,18 +4,21 @@ import 'Item.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class CharacterPage extends StatefulWidget{
-
+  CharacterPage({Character this.character});
+  Character character;
 
   @override
-  _CharacterPageState createState() => _CharacterPageState();
+  _CharacterPageState createState() => _CharacterPageState(character );
 }
 
 
 class _CharacterPageState extends State<CharacterPage>{
   //Test Character
-  Character _character=new Character(health: 100.0,motivation: 30.0,invSize: 54,name: "Amazing Student");
-
-  _CharacterPageState(){
+  //Character _character=new Character(health: 100.0,motivation: 30.0,invSize: 54,name: "Amazing Student");
+  Character _character;
+  _CharacterPageState(Character character){
+    this._character = character;
+    print(this._character.currentHealth);
     //Fills 30 items for testing
     for(int i=0;i<30;i++){
       if(i%2==0){

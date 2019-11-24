@@ -1,37 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:latlong/latlong.dart';
 import 'package:location/location.dart';
+
+import 'Character.dart';
 import 'Objective.dart';
 import 'ActivitesPage.dart';
 import 'MapInfo.dart';
-
+import 'Places.dart';
 class MapPage extends StatefulWidget{
-  MapPage({Key key, this.title, this.context }) : super(key: key);
+  MapPage({Key key, this.title, this.context, this.character}) : super(key: key);
+  final Character character;
   final BuildContext context;
   final String title;
 
   @override
-  _MapPageState createState() => _MapPageState(context);
+  _MapPageState createState() => _MapPageState(context, character);
 }
 
 class _MapPageState extends State<MapPage>{
+  Character character;
   BuildContext context;
   Location _location;
   double _lat;
   double _long;
-  _MapPageState(BuildContext context){
+  _MapPageState(BuildContext context, Character character){
     this.context =context;
-
+    this.character =character;
     _location = new Location();
     _location.onLocationChanged().listen((LocationData currentLocation){
       setState(() {
         _lat =currentLocation.latitude;
         _long =currentLocation.longitude;  
+        building = Places.currentPlace(_lat, _long);
       });      
     });
   }
   String building = "UA";
-  Objective objective = new Objective('Academic', 'pizza', 'get pizza', 'UA', 'good grades');
+  Objective objective = new Objective('Academic', 'pizza', 'get pizza', 'Home', 'good grades');
 
   //Creates a button to turn in the current objected. disable the button if you aren't in the required location
   Widget turnInButton(){
@@ -51,7 +55,7 @@ class _MapPageState extends State<MapPage>{
 //prompts the user if they want to turn in the objective. If they do, remove the current event
 void turnIn(){
     showDialog(
-      context: context,
+      context: this.context,
       barrierDismissible: false,
       builder: (context){
         return AlertDialog(
@@ -63,6 +67,7 @@ void turnIn(){
               //Changes to the character's inventory / stats
               onPressed: (){
                 setState(() {
+                  character.currentHealth -= 10;
                   objective = new Objective('Health',  'Done', 'done', 'Done', 'Done');     
                 });
                 Navigator.of(context).pop();
@@ -96,12 +101,12 @@ Row createStats(){
     mainAxisAlignment: MainAxisAlignment.center,
     children: <Widget>[
       Container(
-        child: Text("40 / 100",),
+        child: Text('${character.currentHealth} / ${character.maxHealth}',),
         color: Colors.red,
       ),
       Padding(padding: EdgeInsets.all(8),),
       Container(
-        child: Text("25 / 25"),
+        child: Text('${character.currentMotivation} / ${character.maxMotivation}'),
         color: Colors.blue,
       ),
       
