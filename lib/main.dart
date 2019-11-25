@@ -10,6 +10,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    Character.loadCharacter(health: 100.0, motivation: 100.0, numInv: 54, characterName: 'Amazing Student');
     return MaterialApp(
       title: 'Ontario Tech Go',
       theme: ThemeData(
@@ -23,7 +24,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
-  
   final String title;
 
   @override
@@ -31,16 +31,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Character testCharacter =Character(health: 100.0, motivation: 25.0, invSize: 54, name: 'Amazing Student');
+  
   CharacterPage characterPage;
   AcademicPage academicPage;
   MapPage mapPage;
 
+  _MyHomePageState(){
+
+  }
   @override
   Widget build(BuildContext context) {
-    characterPage = CharacterPage(character: testCharacter);
+    characterPage = CharacterPage();
     academicPage =AcademicPage();
-    mapPage =MapPage(context:context, character: testCharacter,);
+    mapPage =MapPage(context:context,);
 
     return DefaultTabController(
       length: 3,

@@ -1,30 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
-
+import 'GPSInfo.dart';
 import 'Character.dart';
 import 'Objective.dart';
 import 'ActivitesPage.dart';
 import 'MapInfo.dart';
 import 'Places.dart';
 class MapPage extends StatefulWidget{
-  MapPage({Key key, this.title, this.context, this.character}) : super(key: key);
-  final Character character;
+  MapPage({Key key, this.title, this.context}) : super(key: key);
   final BuildContext context;
   final String title;
 
   @override
-  _MapPageState createState() => _MapPageState(context, character);
+  _MapPageState createState() => _MapPageState(context,);
 }
 
 class _MapPageState extends State<MapPage>{
-  Character character;
+
   BuildContext context;
   Location _location;
   double _lat;
   double _long;
-  _MapPageState(BuildContext context, Character character){
+  _MapPageState(BuildContext context,){
     this.context =context;
-    this.character =character;
     _location = new Location();
     _location.onLocationChanged().listen((LocationData currentLocation){
       setState(() {
@@ -67,7 +65,7 @@ void turnIn(){
               //Changes to the character's inventory / stats
               onPressed: (){
                 setState(() {
-                  character.currentHealth -= 10;
+                  Character.currentHealth -= 10;
                   objective = new Objective('Health',  'Done', 'done', 'Done', 'Done');     
                 });
                 Navigator.of(context).pop();
@@ -101,12 +99,12 @@ Row createStats(){
     mainAxisAlignment: MainAxisAlignment.center,
     children: <Widget>[
       Container(
-        child: Text('${character.currentHealth} / ${character.maxHealth}',),
+        child: Text('${Character.currentHealth} / ${Character.maxHealth}',),
         color: Colors.red,
       ),
       Padding(padding: EdgeInsets.all(8),),
       Container(
-        child: Text('${character.currentMotivation} / ${character.maxMotivation}'),
+        child: Text('${Character.currentMotivation} / ${Character.maxMotivation}'),
         color: Colors.blue,
       ),
       
@@ -123,6 +121,7 @@ Row createStats(){
 
   void openStore(){
     //open a new navigator that contains different items
+    Navigator.push(context, MaterialPageRoute(builder: (context) => GPSInfo()));
   }
   @override
   Widget build(BuildContext context) {
