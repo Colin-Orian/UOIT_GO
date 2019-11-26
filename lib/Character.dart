@@ -23,6 +23,27 @@ static void loadCharacter({health,motivation,numInv, characterName}){
     currentMotivation=maxMotivation;
   }
 
+  static void useConsumable(Consumable item){
+    if(item.getHealthChange()+currentHealth>maxHealth){
+      currentHealth=maxHealth;
+    }else if(item.getHealthChange()+currentHealth<=0){
+      currentHealth=0;
+    }else{
+      currentHealth+=item.getHealthChange();
+    }
+    if(item.getMotivationChange()+currentMotivation>maxMotivation){
+      currentMotivation=maxMotivation;
+    }else if(item.getMotivationChange()+currentMotivation<=0){
+      currentMotivation=0;
+    }else{
+      currentMotivation+=item.getMotivationChange();
+    }
+  }
+
+  static void removeItemInv(Item item){
+    _inventory.remove(item);
+  }
+
   //return character inventory
   static List<Item> getInv(){
     return _inventory;

@@ -112,10 +112,10 @@ class _CharacterPageState extends State<CharacterPage>{
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Character.getInv()[1].buildItem(context),
-              Character.getInv()[1].buildItem(context),
-              Character.getInv()[1].buildItem(context),
-              Character.getInv()[1].buildItem(context),
+              buildItem(context,Character.getInv()[1]),
+              buildItem(context,Character.getInv()[1]),
+              buildItem(context,Character.getInv()[1]),
+              buildItem(context,Character.getInv()[1]),
             ],
           )
         ],
@@ -139,12 +139,102 @@ class _CharacterPageState extends State<CharacterPage>{
             height: MediaQuery.of(context).size.height*0.4,
             child: GridView.count(
               crossAxisCount: 8,
-              children: Character.getInv().map((item)=>item.buildItem(context)).toList(),
-            )
+              children: Character.getInv().map((item)=>buildItem(context,item)).toList(),            )
           ),
         ]
       )
     );
   }
+
+  Widget buildItem(BuildContext context, Item item){
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(width: 1.0,color:Colors.black),
+        color: item.chooseColor()
+      ),
+      child: IconButton(
+        icon: item.getPicture(),
+        onPressed: (){_itemDetailDialog(context, item);},
+        //color: _chooseColor(),
+      ),
+      //color:_chooseColor(),
+    );
+  }
+
+  Future<void>_itemDetailDialog(BuildContext context, Item item)async{
+    var chocie=await showDialog<bool>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          elevation: 1.0,
+          backgroundColor: item.chooseColor(),
+          //Actual Widget shown inside of dialog box
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              item.itemTitle(context),
+              item.itemDesc(context),
+              item.itemEffect(context),
+              _itemDialogOptions(context,item),
+            ],
+          ),
+        );
+      }
+    );
+  }
+
+  Widget _itemDialogOptions(BuildContext context, Item item){
+    if(item.getType()=="Consumable"){
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          SimpleDialogOption(
+            child: Text('Use'),
+            onPressed: (){
+              setState(() {
+                Character.removeItemInv(item);
+                Character.useConsumable(item);
+              });
+              Navigator.pop(context,false);
+              },
+          ),
+          SimpleDialogOption(
+            child: Text('Delete'),
+            onPressed: (){
+              setState(() {
+                Character.removeItemInv(item);
+              });
+              Navigator.pop(context,true);
+            },
+          )
+        ],
+      );
+    }else if(item.getType()=="Modifier"){
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          SimpleDialogOption(
+            child: Text('Equip'),
+            onPressed: (){Navigator.pop(context,false);},
+          ),
+          SimpleDialogOption(
+            child: Text('Delete'),
+            onPressed: (){
+              setState(() {
+                Character.removeItemInv(item);
+              });
+              Navigator.pop(context,true);
+            },
+          )
+        ],
+      );
+    }
+  }
+
+
 }
 
