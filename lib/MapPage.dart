@@ -24,15 +24,19 @@ class _MapPageState extends State<MapPage>{
   _MapPageState(BuildContext context,){
     this.context =context;
     _location = new Location();
+    _location.changeSettings(accuracy: LocationAccuracy.HIGH);
     _location.onLocationChanged().listen((LocationData currentLocation){
       setState(() {
         _lat =currentLocation.latitude;
         _long =currentLocation.longitude;  
         building = Places.currentPlace(_lat, _long);
+        if(null == building){
+          building = 'Loading...';
+        }
       });      
     });
   }
-  String building = "UA";
+  String building;
   Objective objective = new Objective('Academic', 'pizza', 'get pizza', 'Home', 'good grades');
 
   //Creates a button to turn in the current objected. disable the button if you aren't in the required location

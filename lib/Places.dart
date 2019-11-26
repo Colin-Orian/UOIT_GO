@@ -7,14 +7,20 @@ class _Point{
 
 class Places{
   static List<_Point> _botLeft = [
-    _Point(x: 43.929129, y: -78.934739),
+    _Point(x: 43.9443203, y: -78.8958327),
+    _Point(x: 43.945397, y: -78.8958327),
+    _Point(x: 43.945849, y: -78.89642),
   ];
 
   static List<_Point> _topRight = [
-    _Point(x: 50.00000, y: -80.0000)
+    _Point(x: 43.9447362, y: -78.8971068),
+    _Point(x: 43.954133, y: -78.8959179),
+    _Point(x: 43.9459111, y: -78.8960908),
   ];
   static List<String> _places = [
-    'Home'
+    'UA',
+    'UL',
+    'ERC',
   ];
 
   static String currentPlace(double lat, double long){
