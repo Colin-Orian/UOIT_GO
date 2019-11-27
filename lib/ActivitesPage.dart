@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'Objective.dart';
 class ActivitesPage extends StatefulWidget{
   ActivitesPage({Key key, this.title, this.location}) : super(key: key);
@@ -12,23 +13,35 @@ class ActivitesPage extends StatefulWidget{
 class _ActivitiesPageState extends State<ActivitesPage>{
   String location;
   List<Objective> objectives;
-
+  StreamBuilder<QuerySnapshot> streamBuilder;
+  String _category = 'All';
   //TODO read in the objectives from the cloud database and create a list of them
-  List<Objective> getAllObj(){
-    print('Objectives at $location');
-    List<Objective> result = new List<Objective>();
-    Objective tempObj =Objective('Motivation', 'Get sleep', 'go to sleep', 'UL', 'More Motivation', 10, 10);
-    result.add(tempObj);
-    result.add(tempObj);
-    result.add(tempObj);
-    result.add(tempObj);
-    result.add(tempObj);
+  List<Widget> getAllObj(){
+    List<Widget> result =objectives.map((Objective obj){
+      return obj.build(context);
+    }).toList();
     return result;
   }
   _ActivitiesPageState(String location){
     this.location = location;
-    objectives = new List<Objective>();
-    objectives =  getAllObj();
+    streamBuilder =StreamBuilder<QuerySnapshot>(
+      stream: _category == 'All'?  Firestore.instance.collection('Objectives').snapshots() : Firestore.instance.collection('Objectives').where('type', isEqualTo:_category).snapshots(),
+      builder: (context, snapshot){
+        if(!snapshot.hasData){
+          return CircularProgressIndicator();
+        }
+        objectives = snapshot.data.documents.map((data) => Objective.fromMap(data.data, data.documentID)).toList();
+        return ListView(
+          children: objectives.map((Objective obj){
+            return obj.build(context);}).toList(),
+        );
+        //children: objectives.map((Objective obj){
+          //return obj.build(context);}).toList());
+
+      },
+    );
+    //objectives = new List<Objective>();
+    //objectives =  getAllObj();
   }
 
   @override
@@ -37,18 +50,13 @@ class _ActivitiesPageState extends State<ActivitesPage>{
       appBar: AppBar(
         title: Text("hello there! "),
       ),
-      body: ListView(
-        //Go through each objective and convert them into a list of widgets
-        children: objectives.map((Objective objective){
-          return objective.build(context);
-        }).toList()
-        ),
-        floatingActionButton: FloatingActionButton(
+      body: streamBuilder,
+      floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: ()=>{
             //TODO pop the selected objectives off of the navigator
           },
-        ),
-      );
+      ),
+    );
   }
 }

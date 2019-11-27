@@ -15,6 +15,7 @@ class Objective{
   int healthChange;
   int motivationChange;
 
+
   Objective(this.type, this.descip, this.goal, this.turnInLoc, this.reward, this.healthChange, this.motivationChange);
 
 
