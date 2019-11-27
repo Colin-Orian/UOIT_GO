@@ -138,7 +138,7 @@ Row createStats(){
           Text(
             "Current Location: $building",
             style: TextStyle(fontWeight: FontWeight.bold),),
-          objective,
+          objective.build(context),
           Text("Player Stats"),
           createStats(),
           turnInButton(),
