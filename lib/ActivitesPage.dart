@@ -17,7 +17,7 @@ class _ActivitiesPageState extends State<ActivitesPage>{
   List<Objective> getAllObj(){
     print('Objectives at $location');
     List<Objective> result = new List<Objective>();
-    Objective tempObj =Objective('Motivation', 'Get sleep', 'go to sleep', 'UL', 'More Motivation');
+    Objective tempObj =Objective('Motivation', 'Get sleep', 'go to sleep', 'UL', 'More Motivation', 10, 10);
     result.add(tempObj);
     result.add(tempObj);
     result.add(tempObj);

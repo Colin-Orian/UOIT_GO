@@ -11,8 +11,11 @@ class Objective extends StatelessWidget{
   final String goal;
   final String turnInLoc;
   final String reward;
+  final int healthChange;
+  final int motivationChange;
 
-  Objective(this.type, this.descip, this.goal, this.turnInLoc, this.reward);
+  Objective(this.type, this.descip, this.goal, this.turnInLoc, this.reward, this.healthChange, this.motivationChange);
+
 
 
   //Displays a pop up that gives more information about the objective

@@ -37,7 +37,7 @@ class _MapPageState extends State<MapPage>{
     });
   }
   String building;
-  Objective objective = new Objective('Academic', 'pizza', 'get pizza', 'Home', 'good grades');
+  Objective objective = new Objective('Academic', 'pizza', 'get pizza', 'Home', 'good grades', -10, -10);
 
   //Creates a button to turn in the current objected. disable the button if you aren't in the required location
   Widget turnInButton(){
@@ -69,8 +69,9 @@ void turnIn(){
               //Changes to the character's inventory / stats
               onPressed: (){
                 setState(() {
-                  Character.currentHealth -= 10;
-                  objective = new Objective('Health',  'Done', 'done', 'Done', 'Done');     
+                  Character.currentHealth +=objective.healthChange;
+                  Character.currentMotivation +=objective.motivationChange;
+                  objective = new Objective('Health',  'Done', 'done', 'Done', 'Done', 0, 0);     
                 });
                 Navigator.of(context).pop();
                 
