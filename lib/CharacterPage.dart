@@ -19,24 +19,24 @@ class _CharacterPageState extends State<CharacterPage>{
     for(int i=0;i<30;i++){
       if(i%2==0){
         Character.addItemInv(
-          new Consumable(
+          new Item(
             type: "Consumable",
             picture: Icon(Icons.fastfood),
             itemName: "fastFood${i/2}",
             description: "junk food for some quick motivation to really help move forward",
-            healthChange: i*-0.5,
-            motivationChange: i*0.5,
+            health: i*-0.5,
+            motivation: i*0.5,
           )
         );
       }else{
         Character.addItemInv(
-          new Modifier(
+          new Item(
             type: "Modifier",
             picture: Icon(Icons.headset),
             itemName: "headset${i/2}",
             description: "headset for fun",
-            maxHealthChange: i*1.0,
-            maxMotivationChange: i*1.0,
+            health: i*1.0,
+            motivation: i*1.0,
           )
         );
       }

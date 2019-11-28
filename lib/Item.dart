@@ -5,16 +5,22 @@ class Item {
   Icon _picture;
   String _itemName;
   String _description;
+  double _healthEffect;
+  double _motivationEffect;
 
-  Item({String type, Icon, picture, String itemName, String description}){
+  Item({String type, Icon, picture, String itemName, String description, double health,double motivation}){
     this._type=type;
     this._picture=picture;
     this._itemName=itemName;
     this._description=description;
+    this._healthEffect=health;
+    this._motivationEffect=motivation;
   }
 
   String getType(){return this._type;}
   Icon getPicture(){return this._picture;}
+  double getHealthChange(){return _healthEffect;}
+  double getMotivationChange(){return _motivationEffect;}
   Color chooseColor(){
     if(_type=="Consumable"){
       return Colors.orange[100];
@@ -40,7 +46,7 @@ class Item {
         Container(
           padding: EdgeInsets.all(5.0),
           height: MediaQuery.of(context).size.height*0.1,
-          child:_picture
+          child:Icon(IconData(57744,fontFamily: 'MaterialIcons'))//_picture
         ),
         Text(
           "$_itemName",
@@ -62,33 +68,8 @@ class Item {
   }
 
   Widget itemEffect(BuildContext context){
-    return Text("error");
-  }
-}
-
-//items that will be consumed and affect health and motivation
-class Consumable extends Item{
-  double _healthChange;
-  double _motivationChange;
-  Consumable({double healthChange,
-              double motivationChange,
-              String type, 
-              String itemName,
-              String description,
-              Icon picture})
-    : super(type:type,
-            picture:picture,
-            description:description,
-            itemName:itemName){
-    this._healthChange=healthChange;
-    this._motivationChange=motivationChange;
-  }
-  double getHealthChange(){return _healthChange;}
-  double getMotivationChange(){return _motivationChange;}
-
-  @override
-  Widget itemEffect(BuildContext context){
-    return Column(
+    if(_type=="Consumable"){
+      return Column(
       children: <Widget>[
         Padding(padding: EdgeInsets.symmetric(vertical: 4.0),),
         Row(
@@ -102,51 +83,27 @@ class Consumable extends Item{
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Text(
-              "$_healthChange",
+              "$_healthEffect",
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: numColor(_healthChange),
+                color: numColor(_healthEffect),
                 fontSize: 30.0,
               ),
             ),
             Text(
-              "$_motivationChange",
+              "$_motivationEffect",
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: numColor(_motivationChange),
+                color: numColor(_motivationEffect),
                 fontSize: 30.0,
               ),
             )
           ],
         ),
       ],
-    );
-  }
-}
-
-
-class Modifier extends Item{
-  double _maxHealthChange;
-  double _maxMotivationChange;
-  Modifier({double maxHealthChange,
-              double maxMotivationChange,
-              String type, 
-              String itemName,
-              String description,
-              Icon picture})
-    : super(type:type,
-            picture:picture,
-            description:description,
-            itemName:itemName){
-    this._maxHealthChange=maxHealthChange;
-    this._maxMotivationChange=maxMotivationChange;
-  }
-  double getMaxHealthChange(){return _maxHealthChange;}
-  double getMaxMotivationChange(){return _maxMotivationChange;}
-
-  @override
-  Widget itemEffect(BuildContext context){
-    return Column(
+    ); 
+    }else if(_type=="Modifier"){
+      return Column(
       children: <Widget>[
         Padding(padding: EdgeInsets.symmetric(vertical: 4.0),),
         Row(
@@ -160,24 +117,27 @@ class Modifier extends Item{
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Text(
-              "$_maxHealthChange",
+              "$_healthEffect",
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: numColor(_maxHealthChange),
+                color: numColor(_healthEffect),
                 fontSize: 30.0,
               ),
             ),
             Text(
-              "$_maxMotivationChange",
+              "$_motivationEffect",
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: numColor(_maxMotivationChange),
+                color: numColor(_motivationEffect),
                 fontSize: 30.0,
               ),
             )
           ],
         ),
       ],
-    );
+    ); 
+    }else{
+      return Text("error");
+    }
   }
 }

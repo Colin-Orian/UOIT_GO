@@ -9,7 +9,7 @@ class Character{
   static String name;
 
   static List<Item> _inventory =[];
-  static List<Modifier> _loadout = [];
+  static List<Item> _loadout = [];
   static List _activities = [];
 
 static void loadCharacter({health,motivation,numInv, characterName}){
@@ -23,7 +23,7 @@ static void loadCharacter({health,motivation,numInv, characterName}){
     currentMotivation=maxMotivation;
   }
 
-  static void useConsumable(Consumable item){
+  static void useConsumable(Item item){
     if(item.getHealthChange()+currentHealth>maxHealth){
       currentHealth=maxHealth;
     }else if(item.getHealthChange()+currentHealth<=0){
@@ -50,7 +50,7 @@ static void loadCharacter({health,motivation,numInv, characterName}){
   }
 
   //return character loadout
-  static List<Modifier> getLoad(){
+  static List<Item> getLoad(){
     return _loadout;
   }
   
@@ -65,7 +65,7 @@ static void loadCharacter({health,motivation,numInv, characterName}){
   }
 
   //add modifier to loadout
-  static void addModLoad(Modifier modifier){
+  static void addModLoad(Item modifier){
     _loadout.add(modifier);
   }
 
