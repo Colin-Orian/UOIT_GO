@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "903163767672",
+    "firebase_url": "https://uoitgo.firebaseio.com",
+    "project_id": "uoitgo",
+    "storage_bucket": "uoitgo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:903163767672:android:31846bc9e11c844bc4f68d",
+        "android_client_info": {
+          "package_name": "com.example.uoit_go"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "903163767672-3k7dqd2qij1sr83unpl1mtlnc7arrtj8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDv3krLrd3MrDofVzUfATxspKBcYiDOg0E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "903163767672-3k7dqd2qij1sr83unpl1mtlnc7arrtj8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
