@@ -26,14 +26,16 @@ class _MapPageState extends State<MapPage>{
     _location = new Location();
     _location.changeSettings(accuracy: LocationAccuracy.HIGH);
     _location.onLocationChanged().listen((LocationData currentLocation){
-      setState(() {
-        _lat =currentLocation.latitude;
-        _long =currentLocation.longitude;  
-        building = Places.currentPlace(_lat, _long);
-        if(null == building){
-          building = 'Loading...';
-        }
-      });      
+      if(mounted){
+        setState(() {
+          _lat =currentLocation.latitude;
+          _long =currentLocation.longitude;  
+          building = Places.currentPlace(_lat, _long);
+          if(null == building){
+            building = 'Loading...';
+          }
+        }); 
+      }
     });
   }
   String building;

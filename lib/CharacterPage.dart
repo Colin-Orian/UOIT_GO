@@ -14,13 +14,12 @@ class CharacterPage extends StatefulWidget{
 
 class _CharacterPageState extends State<CharacterPage>{
   final _model = ItemModel();
-  Item selectedItem;
   //Test Character  
   _CharacterPageState(){
     //this._character = character;
     //Fills 30 items for testing
-    /*
-    for(int i=0;i<30;i++){
+    
+    for(int i=0;i<60;i++){
       if(i%2==0){
         _model.insertItem(
           new Item(
@@ -48,7 +47,7 @@ class _CharacterPageState extends State<CharacterPage>{
           )
         );
       }
-    }*/
+    }
     _setInventory();
     _model.getAllItems();
   }
@@ -129,10 +128,10 @@ class _CharacterPageState extends State<CharacterPage>{
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              buildItem(context,Character.getInv()[1]),
-              buildItem(context,Character.getInv()[1]),
-              buildItem(context,Character.getInv()[1]),
-              buildItem(context,Character.getInv()[1]),
+              buildItem(context,Character.getInv()[0]),
+              buildItem(context,Character.getInv()[0]),
+              buildItem(context,Character.getInv()[0]),
+              buildItem(context,Character.getInv()[0]),
             ],
           )
         ],
@@ -153,7 +152,7 @@ class _CharacterPageState extends State<CharacterPage>{
             ],
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height*0.4,
+            height: MediaQuery.of(context).size.height*0.5,
             child: GridView.count(
               crossAxisCount: 8,
               children: Character.getInv().map((item)=>buildItem(context,item)).toList(),            )
@@ -172,7 +171,6 @@ class _CharacterPageState extends State<CharacterPage>{
       child: IconButton(
         icon: item.getPicture(),
         onPressed: (){
-          selectedItem=item;
           _itemDetailDialog(context, item);
           },
         //color: _chooseColor(),
@@ -219,7 +217,8 @@ class _CharacterPageState extends State<CharacterPage>{
                 Character.removeItemInv(item);
                 Character.useConsumable(item);
               });
-              _model.deleteItem(selectedItem);
+              _model.deleteItem(item);
+              _setInventory();
               Navigator.pop(context,false);
               },
           ),
@@ -229,7 +228,8 @@ class _CharacterPageState extends State<CharacterPage>{
               setState(() {
                 Character.removeItemInv(item);
               });
-              _model.deleteItem(selectedItem);
+              _model.deleteItem(item);
+              _setInventory();
               Navigator.pop(context,true);
             },
           )
@@ -249,6 +249,8 @@ class _CharacterPageState extends State<CharacterPage>{
               setState(() {
                 Character.removeItemInv(item);
               });
+              _model.deleteItem(item);
+              _setInventory();
               Navigator.pop(context,true);
             },
           )
