@@ -3,6 +3,7 @@ import 'Character.dart';
 import 'model/Item.dart';
 import 'model/ItemModel.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CharacterPage extends StatefulWidget{
   CharacterPage();
@@ -17,9 +18,9 @@ class _CharacterPageState extends State<CharacterPage>{
   //Test Character  
   _CharacterPageState(){
     //this._character = character;
-    //Fills 30 items for testing
-    
-    for(int i=0;i<60;i++){
+    //Fills 40 items for testing
+    /* UNCOMMENT TO FILL DATABASE INITIALLY
+    for(int i=0;i<40;i++){
       if(i%2==0){
         _model.insertItem(
           new Item(
@@ -47,7 +48,7 @@ class _CharacterPageState extends State<CharacterPage>{
           )
         );
       }
-    }
+    }*/
     _setInventory();
     _model.getAllItems();
   }
@@ -59,6 +60,7 @@ class _CharacterPageState extends State<CharacterPage>{
       children: <Widget>[
         _characterProfile(),
         _loadoutProfile(),
+        _freeItemButton(),
         _inventoryProfile(),
       ]
     );
@@ -152,12 +154,44 @@ class _CharacterPageState extends State<CharacterPage>{
             ],
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height*0.5,
+            height: MediaQuery.of(context).size.height*0.4,
             child: GridView.count(
               crossAxisCount: 8,
               children: Character.getInv().map((item)=>buildItem(context,item)).toList(),            )
           ),
         ]
+      )
+    );
+  }
+
+  Widget _freeItemButton(){
+    return Container(
+      padding: EdgeInsets.all(5.0),
+      height: MediaQuery.of(context).size.height*0.08,
+      width: double.infinity,
+      child:FlatButton(
+        onPressed: (){_randomItem();},
+        child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: <Color>[
+                Colors.red,
+                Colors.orange,
+                Colors.yellow,
+                Colors.green,
+                Colors.blue,
+                Colors.purple,
+              ],
+            )
+          ),
+          child: Text(
+            "Free Random Item",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 32),
+          ),
+        ),
       )
     );
   }
@@ -257,6 +291,23 @@ class _CharacterPageState extends State<CharacterPage>{
         ],
       );
     }
+  }
+
+  void _randomItem() {
+    List<Item> itemPull=[];
+    final items = Firestore.instance.collection('items');
+    items.snapshots().listen((data){
+      for(var doc in data.documents){
+        final item =  Item.fromMap(doc.data);
+        itemPull.add(item);
+        print(item.toString());
+      }
+      Item newItem = (itemPull..shuffle()).first;
+      print(newItem.toString());
+      _model.insertItem(newItem);
+      _setInventory();
+    });
+    
   }
 
 
