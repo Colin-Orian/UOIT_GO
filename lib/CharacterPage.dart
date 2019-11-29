@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'Character.dart';
-import 'Item.dart';
+import 'model/Item.dart';
+import 'model/ItemModel.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class CharacterPage extends StatefulWidget{
@@ -12,35 +13,44 @@ class CharacterPage extends StatefulWidget{
 
 
 class _CharacterPageState extends State<CharacterPage>{
+  final _model = ItemModel();
+  Item selectedItem;
   //Test Character  
   _CharacterPageState(){
     //this._character = character;
     //Fills 30 items for testing
+    /*
     for(int i=0;i<30;i++){
       if(i%2==0){
-        Character.addItemInv(
+        _model.insertItem(
           new Item(
+            id: i,
             type: "Consumable",
-            picture: Icon(Icons.fastfood),
+            pictureID: Icons.fastfood.codePoint,
             itemName: "fastFood${i/2}",
             description: "junk food for some quick motivation to really help move forward",
             health: i*-0.5,
             motivation: i*0.5,
+            inLoadout: 0,
           )
         );
       }else{
-        Character.addItemInv(
+        _model.insertItem(
           new Item(
+            id: i,
             type: "Modifier",
-            picture: Icon(Icons.headset),
+            pictureID: Icons.headset.codePoint,
             itemName: "headset${i/2}",
             description: "headset for fun",
             health: i*1.0,
             motivation: i*1.0,
+            inLoadout: 0,
           )
         );
       }
-    }
+    }*/
+    _setInventory();
+    _model.getAllItems();
   }
 
 
@@ -53,6 +63,13 @@ class _CharacterPageState extends State<CharacterPage>{
         _inventoryProfile(),
       ]
     );
+  }
+
+  Future<void> _setInventory() async {
+    List<Item>  temp = await _model.getAllItems();
+    setState(() {
+      Character.setInv(temp);
+    });
   }
 
 //Widget of the profile, with the health, motivation, and name
@@ -154,7 +171,10 @@ class _CharacterPageState extends State<CharacterPage>{
       ),
       child: IconButton(
         icon: item.getPicture(),
-        onPressed: (){_itemDetailDialog(context, item);},
+        onPressed: (){
+          selectedItem=item;
+          _itemDetailDialog(context, item);
+          },
         //color: _chooseColor(),
       ),
       //color:_chooseColor(),
@@ -199,6 +219,7 @@ class _CharacterPageState extends State<CharacterPage>{
                 Character.removeItemInv(item);
                 Character.useConsumable(item);
               });
+              _model.deleteItem(selectedItem);
               Navigator.pop(context,false);
               },
           ),
@@ -208,6 +229,7 @@ class _CharacterPageState extends State<CharacterPage>{
               setState(() {
                 Character.removeItemInv(item);
               });
+              _model.deleteItem(selectedItem);
               Navigator.pop(context,true);
             },
           )

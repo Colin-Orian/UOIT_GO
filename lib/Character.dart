@@ -1,4 +1,4 @@
-import 'Item.dart';
+import 'model/Item.dart';
 
 class Character{
   static double currentHealth;
@@ -47,6 +47,10 @@ static void loadCharacter({health,motivation,numInv, characterName}){
   //return character inventory
   static List<Item> getInv(){
     return _inventory;
+  }
+
+  static void setInv(List<Item> inv){
+    _inventory=inv;
   }
 
   //return character loadout
