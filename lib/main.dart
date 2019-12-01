@@ -43,7 +43,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     characterPage = CharacterPage();
     academicPage =AcademicPage();
-    mapPage =MapPage(context:context,);
 
     return DefaultTabController(
       length: 3,
@@ -69,7 +68,8 @@ class _MyHomePageState extends State<MyHomePage> {
           physics: NeverScrollableScrollPhysics(), //Disable the swipe because it messed up with the map
           children: <Widget>[
             characterPage,
-            mapPage,
+            //We need the Builder to make the snackbar to work
+            Builder(builder: (BuildContext context){return MapPage(context: context,);},), 
             AcademicPage(),
           ],
         ),

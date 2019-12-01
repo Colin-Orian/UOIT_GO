@@ -39,7 +39,7 @@ class _MapPageState extends State<MapPage>{
     });
   }
   String building;
-  Objective objective = new Objective('Academic', 'pizza', 'get pizza', 'Home', 'good grades', -10, -10);
+  Objective objective = new Objective('Academic', 'pizza', 'get pizza', 'No Location', 'good grades', -10, -10);
 
   //Creates a button to turn in the current objected. disable the button if you aren't in the required location
   Widget turnInButton(){
@@ -75,7 +75,9 @@ void turnIn(){
                   Character.currentMotivation +=objective.motivationChange;
                   objective = new Objective('Health',  'Done', 'done', 'Done', 'Done', 0, 0);     
                 });
-                Navigator.of(context).pop();
+                Navigator.of(this.context).pop();
+                final snackBar =SnackBar(content: Text('turned in the objective!'));
+                Scaffold.of(this.context).showSnackBar(snackBar);
                 
               }
             ),

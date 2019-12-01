@@ -120,6 +120,21 @@ class _CharacterPageState extends State<CharacterPage>{
     );
   }
 
+  Widget _loadoutCheck(){
+    if(Character.getInv().length != 0){
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            buildItem(context,Character.getInv()[0]),
+            buildItem(context,Character.getInv()[0]),
+            buildItem(context,Character.getInv()[0]),
+            buildItem(context,Character.getInv()[0]),
+          ],
+      );
+    }else{
+      return Text('No items. :(');
+    }
+  }
   Widget _loadoutProfile(){
     return Container(
       height: MediaQuery.of(context).size.height*0.15,
@@ -127,15 +142,7 @@ class _CharacterPageState extends State<CharacterPage>{
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           Text("Loadout (4/4)"),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              buildItem(context,Character.getInv()[0]),
-              buildItem(context,Character.getInv()[0]),
-              buildItem(context,Character.getInv()[0]),
-              buildItem(context,Character.getInv()[0]),
-            ],
-          )
+          _loadoutCheck(),
         ],
       )
     );
