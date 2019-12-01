@@ -5,12 +5,17 @@ class Course{
   String courseId;
   String courseName;
   double grade;
+  bool passed;
   String time;
 
   Course(this.courseId,this.courseName,this.grade){
-    //TODO pull time from database
-    //  Suggest To put weekdays
+    //TODO pull days from databasea
     this.time = "Wed";    
+    if (grade>=50){
+      passed = true;
+    }else{
+      passed = false;
+    }
   }
   
   int getColorValue(){

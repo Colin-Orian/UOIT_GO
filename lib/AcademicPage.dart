@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'Course.dart';
 import 'package:flip_card/flip_card.dart';
+import 'GraduationPage.dart';
 
 class AcademicPage extends StatefulWidget{
   final String title;
@@ -14,18 +15,6 @@ class AcademicPage extends StatefulWidget{
 }
 
 class AcademicPageState extends State<AcademicPage>{
-  //test
-  List courses = <Course>[
-    Course("CSCI 4100U","Mobile Development",95.0),
-    Course("CSCI 4100U","Mobile Development",63.0),
-    Course("CSCI 4100U","Mobile Development",50.0),
-    Course("CSCI 4100U","Mobile Development",75.0),
-    Course("CSCI 4100U","Mobile Development",45.0),
-    Course("CSCI 4100U","Mobile Development",72.0),
-    Course("CSCI 4100U","Mobile Development",38.0),
-    Course("CSCI 4100U","Mobile Development",72.0),
-    Course("CSCI 4100U","Mobile Development",89.0),
-  ];
 
   bool showOverall = false;
 
@@ -38,13 +27,13 @@ class AcademicPageState extends State<AcademicPage>{
             _buildCoures(courses[3]),
             _buildCoures(courses[4]),
             _buildCoures(courses[5]),
-            _buildCoures(courses[6]),
-            _buildCoures(courses[7]),
-            _buildCoures(courses[8]),
           ];
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
+        Container(
+          child:_buildGradeProgressBtn(),
+        ),
         Flexible(
           child: ListView(
               scrollDirection: Axis.vertical,
@@ -52,30 +41,7 @@ class AcademicPageState extends State<AcademicPage>{
               children: builds
             ),
         ),
-         Container(
-            padding: EdgeInsets.symmetric(horizontal:15.0,vertical:10.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                //graduation progress bar
-                LinearPercentIndicator(
-                  width: MediaQuery.of(context).size.width-130,
-                  alignment: MainAxisAlignment.end,
-                  center: Text(
-                    //TODO From database
-                    "50%",
-                    style: TextStyle(color: Colors.black),
-                    ),
-                  leading: Text("Graduation: ",
-                  style: TextStyle(color: Colors.black),
-                  ),
-                  lineHeight: MediaQuery.of(context).size.height*0.03,
-                  //TODO From Database
-                  percent: 0.5,
-                  progressColor: Colors.green,
-                )],
-                )
-          )
+         
       ],
     );
   }
@@ -207,4 +173,83 @@ class AcademicPageState extends State<AcademicPage>{
     return Color.fromARGB(255, white, white, white);
   }
 
+  Widget _buildGradeProgressBtn(){
+    //TODO From Database
+    List<Course> courseList = courses;
+    int passedNum = 0;
+    for (int i=0;i<courseList.length;i++){
+      if(courseList[i].passed)
+        passedNum++;
+    } 
+    double progress = (passedNum / courseList.length);  
+
+    return GestureDetector(
+      onTap:(){
+        setState(() {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context)=>GraduationPage())
+          );
+        });
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          boxShadow: <BoxShadow>[
+              BoxShadow(color: Colors.black38,offset: Offset(0, 2.0),blurRadius: 2.0)
+            ],
+        ),
+        child: Card(
+          child: Column(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal:15.0,vertical:10.0),
+                  child: Row(
+                    children: <Widget>[
+                      Text("Check Overall Graduation progress"),
+                      IconButton(
+                        icon: Icon(Icons.chevron_right),
+                        onPressed: (){
+                          setState(() {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context)=>GraduationPage())
+                            );
+                          });
+                        },
+                      ), 
+                    ],
+                  ),
+                ),
+                Row(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal:15.0,vertical:10.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        //graduation progress bar
+                        LinearPercentIndicator(
+                          width: MediaQuery.of(context).size.width-130,
+                          alignment: MainAxisAlignment.end,
+                          center: Text(
+                            (progress*100).toStringAsFixed(2)+"%",
+                            style: TextStyle(color: Colors.black),
+                            ),
+                          leading: Text("Graduation: ",
+                          style: TextStyle(color: Colors.black),
+                          ),
+                          lineHeight: MediaQuery.of(context).size.height*0.03,
+                          percent: progress,
+                          progressColor: Colors.green,
+                        )],
+                      )
+                    ),
+                  ],
+                )
+              ],
+          ),
+        ),
+      ),
+    );
+  }
 }
