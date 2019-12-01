@@ -32,6 +32,7 @@ This project is a starting point for a Flutter application "UOIT GO"
 ### Part One Requirements
 - [X] Multiple screens, navigation 
 - [X] Dialogs/pickers
+- [X] Data Table & Chart
 - [ ] Snackbars 
 - [ ] Notifications
 - [ ] Local storage
