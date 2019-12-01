@@ -33,8 +33,12 @@ This project is a starting point for a Flutter application "UOIT GO"
 - [X] Multiple screens, navigation 
 - [X] Dialogs/pickers
 - [X] Data Table & Chart
-- [ ] Snackbars 
+- [X] Snackbars 
 - [ ] Notifications
-- [ ] Local storage
-- [ ] Cloud storage
-- [ ] HTTP requests 
+- [X] Local storage
+- [X] Cloud storage
+- [X] Maps
+- [X] Geolocation
+- [X] Geocoding
+- [ ] i18n
+- ~~[ ] HTTP requests~~ No Longer a Requirement 
