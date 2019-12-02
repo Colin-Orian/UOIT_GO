@@ -111,6 +111,7 @@ class GraduationPageState extends State<GraduationPage>{
           ),
         ],
         animate: true,
+        animationDuration: Duration(seconds: 1),
       ),
     );
   }
