@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'Course.dart';
 import 'package:flip_card/flip_card.dart';
@@ -70,10 +71,10 @@ class AcademicPageState extends State<AcademicPage>{
           child: Column(
             children: <Widget>[
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children:<Widget>[
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal:12.0),
+                    padding: EdgeInsets.symmetric(horizontal:10.0),
                     child: CircleAvatar(
                       child: Icon(
                           Icons.edit,
@@ -82,15 +83,17 @@ class AcademicPageState extends State<AcademicPage>{
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal:10.0,vertical:20.0),
-                    child: Text(course.courseName,textAlign: TextAlign.center,style: TextStyle(
+                    padding: EdgeInsets.symmetric(vertical:20.0),
+                    width: 0.5 * MediaQuery.of(context).size.width,
+                    height: 0.1 * MediaQuery.of(context).size.height,
+                    child: Text(course.courseName,style: TextStyle(
                       fontSize: 18.0,
                       color: textColorFront,
                       ),
                     )
                   ),
                   Container(
-                    padding: EdgeInsets.all(5.0),
+                    padding: EdgeInsets.symmetric(vertical: 2.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
@@ -111,7 +114,10 @@ class AcademicPageState extends State<AcademicPage>{
                 ],
               ),
               Container(
-                child:Text("Tap to see grade.",textAlign: TextAlign.center,style: TextStyle(
+                child:Text(FlutterI18n.translate(
+                  context,
+                  "Academic.tap"
+                ),textAlign: TextAlign.center,style: TextStyle(
                     color: textColorFront,
                     fontSize: 12.0,
                 ),)
@@ -205,7 +211,10 @@ class AcademicPageState extends State<AcademicPage>{
                   padding: EdgeInsets.symmetric(horizontal:15.0,vertical:10.0),
                   child: Row(
                     children: <Widget>[
-                      Text("Check Overall Graduation progress"),
+                      Text(FlutterI18n.translate(
+                        context,
+                        "Academic.check"
+                      )),
                       IconButton(
                         icon: Icon(Icons.chevron_right),
                         onPressed: (){
@@ -235,7 +244,10 @@ class AcademicPageState extends State<AcademicPage>{
                             (progress*100).toStringAsFixed(2)+"%",
                             style: TextStyle(color: Colors.black),
                             ),
-                          leading: Text("Graduation: ",
+                          leading: Text(FlutterI18n.translate(
+                            context,
+                            "Academic.graduation"
+                          ),
                           style: TextStyle(color: Colors.black),
                           ),
                           lineHeight: MediaQuery.of(context).size.height*0.03,

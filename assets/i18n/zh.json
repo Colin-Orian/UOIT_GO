@@ -1,0 +1,31 @@
+{
+  "Character":{
+    "name":"学生",
+    "health":"健康",
+    "motivation":"动力",
+    "loadout":"装备",
+    "storage":"物品栏",
+    "use":"使用",
+    "equip":"装备", 
+    "delete":"移除"
+  },
+
+  "Academic":{
+    "check":"查看毕业进度",
+    "graduation":"进度",
+    "tap":"点击查看成绩"
+  },
+
+  "Map":{
+    "location":"当前位置",
+    "stats":"玩家状态",
+    "turnin-false":"无法提交",
+    "turnin-true":"提交",
+    "activites":"活动",
+    "store":"商店"
+  },
+
+  "Setting":{
+    "setting":"设置"
+  }
+}

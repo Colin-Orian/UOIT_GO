@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:location/location.dart';
 import 'GPSInfo.dart';
 import 'Character.dart';
@@ -45,13 +46,19 @@ class _MapPageState extends State<MapPage>{
   Widget turnInButton(){
     if(objective.turnInLoc == building){
       return RaisedButton(
-        child: Text("Turn in"),
+        child: Text(FlutterI18n.translate(
+          context,
+          "Map.turnin-true"
+        )),
         onPressed: () => turnIn(),
       );
     }else{
       return RaisedButton(
         
-        child: Text("Can't turn in"),
+        child: Text(FlutterI18n.translate(
+          context,
+          "Map.turnin-false"
+        )),
         onPressed: null,
       );
     }
@@ -132,6 +139,7 @@ Row createStats(){
     //open a new navigator that contains different items
     Navigator.push(context, MaterialPageRoute(builder: (context) => GPSInfo()));
   }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -140,19 +148,43 @@ Row createStats(){
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Text(
-            "Current Location: $building",
+            FlutterI18n.translate(
+              context,
+              "Map.location"
+            ),
             style: TextStyle(fontWeight: FontWeight.bold),),
           objective.build(context),
-          Text("Player Stats"),
+          Text(FlutterI18n.translate(
+            context,
+            "Map.stats"
+          )),
           createStats(),
           turnInButton(),
-          RaisedButton(
-            child: Text("Activites Here"),
-            onPressed: () => openActivites(),
-          ),
-          RaisedButton(
-            child: Text("Store Here"),
-            onPressed: () => openStore(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                padding:EdgeInsets.symmetric(horizontal: 8.0),
+                child: RaisedButton(
+                  
+                  child: Text(FlutterI18n.translate(
+                    context,
+                    "Map.activites"
+                  )),
+                  onPressed: () => openActivites(),
+                ),
+              ),
+              Container(
+                padding:EdgeInsets.symmetric(horizontal: 8.0),
+                child: RaisedButton(
+                  child: Text(FlutterI18n.translate(
+                    context,
+                    "Map.store"
+                  )),
+                  onPressed: () => openStore(),
+                ),
+              ),
+            ],
           ),
           MapInfo(context: context, lat: _lat, long: _long,),
         ],
