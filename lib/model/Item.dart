@@ -26,12 +26,17 @@ class Item {
   int getPictureID(){return this._pictureID;}
   double getHealthChange(){return _healthEffect;}
   double getMotivationChange(){return _motivationEffect;}
+  int isInLoadout(){return _inLoadout;}
   Color chooseColor(){
     if(_type=="Consumable"){
       return Colors.orange[100];
     }else{
       return Colors.blue[50];
     }
+  }
+
+  void setEquip(int equip){
+    _inLoadout=equip;
   }
 
   String toString(){

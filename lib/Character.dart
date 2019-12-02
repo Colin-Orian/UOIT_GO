@@ -23,6 +23,47 @@ static void loadCharacter({health,motivation,numInv, characterName}){
     currentMotivation=maxMotivation;
   }
 
+  static void equipModifier(Item item){
+    if(maxHealth+item.getHealthChange()>=0){
+      maxHealth+=item.getHealthChange();
+      if(currentHealth+item.getHealthChange()>=0){
+      currentHealth+=item.getHealthChange();
+      }
+    }else{
+      maxHealth=0;
+      currentHealth=0;
+    }
+    if(maxMotivation+item.getMotivationChange()>=0){
+      maxMotivation+=item.getMotivationChange();
+      if(currentMotivation+item.getMotivationChange()>=0){
+        currentMotivation+=item.getMotivationChange();
+      }
+    }else{
+      maxMotivation=0;
+    }
+  }
+
+  static void unequipModifier(Item item){
+    if(maxHealth-item.getHealthChange()>=0){
+      maxHealth-=item.getHealthChange();
+      if(currentHealth-item.getHealthChange()>=0){
+      currentHealth-=item.getHealthChange();
+      }
+    }else{
+      maxHealth=0;
+      currentHealth=0;
+    }
+    if(maxMotivation-item.getMotivationChange()>=0){
+      maxMotivation-=item.getMotivationChange();
+      if(currentMotivation-item.getMotivationChange()>=0){
+        currentMotivation-=item.getMotivationChange();
+      }
+    }else{
+      maxMotivation=0;
+    }
+  }
+
+
   static void useConsumable(Item item){
     if(item.getHealthChange()+currentHealth>maxHealth){
       currentHealth=maxHealth;
@@ -51,6 +92,10 @@ static void loadCharacter({health,motivation,numInv, characterName}){
 
   static void setInv(List<Item> inv){
     _inventory=inv;
+  }
+
+  static void setLoadout(List<Item> load){
+    _loadout=load;
   }
 
   //return character loadout
