@@ -15,40 +15,9 @@ class CharacterPage extends StatefulWidget{
 
 class _CharacterPageState extends State<CharacterPage>{
   final _model = ItemModel();
+  bool isInitLaunch=true;
   //Test Character  
   _CharacterPageState(){
-    //this._character = character;
-    //Fills 40 items for testing
-    /* UNCOMMENT TO FILL DATABASE INITIALLY
-    for(int i=0;i<40;i++){
-      if(i%2==0){
-        _model.insertItem(
-          new Item(
-            id: i,
-            type: "Consumable",
-            pictureID: Icons.fastfood.codePoint,
-            itemName: "fastFood${i/2}",
-            description: "junk food for some quick motivation to really help move forward",
-            health: i*-0.5,
-            motivation: i*0.5,
-            inLoadout: 0,
-          )
-        );
-      }else{
-        _model.insertItem(
-          new Item(
-            id: i,
-            type: "Modifier",
-            pictureID: Icons.headset.codePoint,
-            itemName: "headset${i/2}",
-            description: "headset for fun",
-            health: i*1.0,
-            motivation: i*1.0,
-            inLoadout: 0,
-          )
-        );
-      }
-    }*/
     _setInventory();
     _model.getAllItems();
   }
@@ -68,8 +37,19 @@ class _CharacterPageState extends State<CharacterPage>{
 
   Future<void> _setInventory() async {
     List<Item>  temp = await _model.getAllItems();
+    List<Item> loadoutTemp = [];
+    for(Item item in temp){
+      if(item.isInLoadout()==1){
+        loadoutTemp.add(item);
+        if(isInitLaunch){
+          Character.equipModifier(item);
+        }
+      }
+    }
+    isInitLaunch=false;
     setState(() {
       Character.setInv(temp);
+      Character.setLoadout(loadoutTemp);
     });
   }
 
@@ -124,12 +104,7 @@ class _CharacterPageState extends State<CharacterPage>{
     if(Character.getInv().length != 0){
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            buildItem(context,Character.getInv()[0]),
-            buildItem(context,Character.getInv()[0]),
-            buildItem(context,Character.getInv()[0]),
-            buildItem(context,Character.getInv()[0]),
-          ],
+        children: Character.getLoad().map((item)=>buildItem(context,item)).toList(),
       );
     }else{
       return Text('No items. :(');
@@ -141,7 +116,7 @@ class _CharacterPageState extends State<CharacterPage>{
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          Text("Loadout (4/4)"),
+          Text("Loadout (${Character.getLoad().length}/4)"),
           _loadoutCheck(),
         ],
       )
@@ -281,13 +256,48 @@ class _CharacterPageState extends State<CharacterPage>{
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           SimpleDialogOption(
-            child: Text('Equip'),
-            onPressed: (){Navigator.pop(context,false);},
+            child: ((){
+              if(item.isInLoadout()==1){
+                return Text("Unequip");
+              } else{
+                return Text("Equip");
+              }
+            }()),
+            onPressed: (){
+              if(item.isInLoadout()==1){
+                setState(() {
+                  Character.unequipModifier(item);
+                item.setEquip(0);
+                _model.updateItem(item);
+                _setInventory();
+              });
+              Navigator.pop(context,false);
+              }else{
+                if(Character.getLoad().length==4){
+                  final snackBar = SnackBar(
+                    content: Text('Loadout Full!  Cannot equip item!'),
+                    duration: Duration(milliseconds: 1300),
+                  );
+                  Scaffold.of(this.context).showSnackBar(snackBar);
+                }else{
+                  setState(() {
+                    Character.equipModifier(item);
+                    item.setEquip(1);
+                    _model.updateItem(item);
+                    _setInventory();
+                  });
+                }
+              Navigator.pop(context,false);
+              }
+            },
           ),
           SimpleDialogOption(
             child: Text('Delete'),
             onPressed: (){
               setState(() {
+                if(item.isInLoadout()==1){
+                  Character.unequipModifier(item);
+                }
                 Character.removeItemInv(item);
               });
               _model.deleteItem(item);
