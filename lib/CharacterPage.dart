@@ -152,7 +152,17 @@ class _CharacterPageState extends State<CharacterPage>{
       height: MediaQuery.of(context).size.height*0.08,
       width: double.infinity,
       child:FlatButton(
-        onPressed: (){_randomItem();},
+        onPressed: (){
+          if(Character.getInv().length==64){
+            final snackBar = SnackBar(
+              content: Text('Inventory Full!  Cannot get item!'),
+              duration: Duration(milliseconds: 1300),
+            );
+            Scaffold.of(this.context).showSnackBar(snackBar);
+          }else{
+            _randomItem();
+          }
+        },
         child: Container(
           width: double.infinity,
           height: double.infinity,
