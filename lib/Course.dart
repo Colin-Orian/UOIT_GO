@@ -9,7 +9,7 @@ class Course{
   String time;
 
   Course(this.courseId,this.courseName,this.grade){
-    //TODO pull days from databasea
+    //TODO pull days from database
     this.time = "Wed";    
     if (grade>=50){
       passed = true;
