@@ -6,27 +6,36 @@ import 'package:flip_card/flip_card.dart';
 import 'GraduationPage.dart';
 
 class AcademicPage extends StatefulWidget{
+  BuildContext context;
   final String title;
-  AcademicPage({Key key,this.title});
+  AcademicPage({Key key,this.title,this.context});
 
   @override
-  AcademicPageState createState() => AcademicPageState();
+  AcademicPageState createState() => AcademicPageState(context);
 }
 
 class AcademicPageState extends State<AcademicPage>{
+  BuildContext context;
 
-  bool showOverall = false;
-
+  AcademicPageState(BuildContext context){
+    this.context =context;
+    if(mounted){
+      setState(() {
+        
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
-    List builds = <Widget>[
-            _buildCoures(courses[0]),
-            _buildCoures(courses[1]),
-            _buildCoures(courses[2]),
-            _buildCoures(courses[3]),
-            _buildCoures(courses[4]),
-            _buildCoures(courses[5]),
-          ];
+    List builds;
+    builds = <Widget>[
+          _buildCoures(courses[0]),
+          _buildCoures(courses[1]),
+          _buildCoures(courses[2]),
+          _buildCoures(courses[3]),
+          _buildCoures(courses[4]),
+          _buildCoures(courses[5]),
+        ];
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[

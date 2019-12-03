@@ -1,22 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+
 
 class SettingsPage extends StatefulWidget{
   final String title;
-  SettingsPage({Key key,this.title}) : super(key:key);
+  BuildContext context;
+  SettingsPage({Key key,this.title,this.context}) : super(key:key);
 
   @override
-  SettingsPageState createState() => SettingsPageState();
+  SettingsPageState createState() => SettingsPageState(context);
 }
 
 class SettingsPageState extends State<SettingsPage>{
   @override
   BuildContext context;
   int lanValue = 0;
+  Locale newLocale;
+  
+  SettingsPageState(BuildContext context){
+    this.context=context;
+    if(!mounted){
+      SharedPreferences.setMockInitialValues({"languageNum":0});
+    }else{
+        _setInt("languageNum", 0);
+    }
+  }
+
+  Future<int> _getInt(String key) async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(key);
+  }
+  _setInt(String key,int n) async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt(key, n);
+  }
 
   @override
   Widget build(BuildContext context) {
-    this.context = context;
+    _getInt("languageNum").then((val){
+                        lanValue = val;
+                      });
     return Scaffold(
       body: ListView(
         children: <Widget>[
@@ -28,15 +53,18 @@ class SettingsPageState extends State<SettingsPage>{
                 DropdownButton(
                   value: lanValue,
                   onChanged: (value){
-                    Locale newLocale;
-                    if(value == 0)
-                      newLocale = Locale('en');
-                    else
+                    if(value == 1)
                       newLocale = Locale('zh');
+                    else
+                      newLocale = Locale('en');
                     setState(() {
-                      this.lanValue = value;
-                    });
-                    setState(() {
+                      _setInt("languageNum", value);
+                      _getInt("languageNum").then((val){
+                        lanValue = val;
+                      });
+                      _getInt("languageNum").then((val){
+                        print(val);
+                      });
                       FlutterI18n.refresh(context, newLocale);
                     });
                   },

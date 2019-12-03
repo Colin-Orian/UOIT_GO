@@ -73,8 +73,15 @@ class _MyHomePageState extends State<MyHomePage> {
           appBar: AppBar(
             backgroundColor: Colors.black,
             title:TabBar(
+              //FIXME May Cause Profomance issue
+              onTap: (value){
+                setState(() {
+                  
+                });
+              },
               tabs: <Widget>[
-                Tab(icon: Icon(
+                Tab(
+                  icon: Icon(
                   Icons.person,
                   color: Colors.orange,)),
                 Tab(icon: Icon(Icons.map,
@@ -91,11 +98,11 @@ class _MyHomePageState extends State<MyHomePage> {
           body: TabBarView(
             physics: NeverScrollableScrollPhysics(), //Disable the swipe because it messed up with the map
             children: <Widget>[
-              characterPage,
+              Builder(builder: (BuildContext context){return CharacterPage(context: context,);},),
               //We need the Builder to make the snackbar to work
               Builder(builder: (BuildContext context){return MapPage(context: context,);},), 
-              AcademicPage(),
-              SettingsPage(title:"Settings"),
+              Builder(builder: (BuildContext context){return AcademicPage(context: context,);},),
+              Builder(builder: (BuildContext context){return SettingsPage(context:context);},)
             ],
           ),
         ),

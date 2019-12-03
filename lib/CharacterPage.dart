@@ -7,18 +7,21 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CharacterPage extends StatefulWidget{
-  CharacterPage();
+  BuildContext context;
+  CharacterPage({Key key,this.context}):super(key:key);
 
   @override
-  _CharacterPageState createState() => _CharacterPageState();
+  _CharacterPageState createState() => _CharacterPageState(context);
 }
 
 
 class _CharacterPageState extends State<CharacterPage>{
+  BuildContext context;
   final _model = ItemModel();
   bool isInitLaunch=true;
   //Test Character  
-  _CharacterPageState(){
+  _CharacterPageState(context){
+    this.context=context;
     _setInventory();
     _model.getAllItems();
   }

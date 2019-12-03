@@ -37,6 +37,7 @@ dependencies:
   cloud_firestore: ^0.12.9+5
   charts_flutter:
   flutter_local_notifications:
+  shared_preferences:
   
 dev_dependencies:
   flutter_test:
