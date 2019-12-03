@@ -7,11 +7,11 @@ import 'Course.dart';
 //test
 List courses = <Course>[
     Course("CSCI 4100U","Mobile Development",95.0),
-    Course("CSCI 4100U","Mobile Development",63.0),
-    Course("CSCI 4100U","Mobile Development",50.0),
-    Course("CSCI 4100U","Mobile Development",80.0),
-    Course("CSCI 4100U","Mobile Development",34.0),
-    Course("CSCI 4100U","Mobile Development",17.0),
+    Course("CSCI 3055U","Programming Language",63.0),
+    Course("CSCI 2070U","Computational Sci.",50.0),
+    Course("CSCI 4620U","HCI",80.0),
+    Course("CSCI 4000U","Adv. Computer Japhics",34.0),
+    Course("CSCI 3020U","Operating Systems",17.0),
 ];
 
 

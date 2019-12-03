@@ -1,0 +1,31 @@
+{
+  "Character":{
+    "name":"Amazing Students",
+    "health":"Health",
+    "motivation":"Motivation",
+    "loadout":"loadout",
+    "storage":"Storage",
+    "use":"use",
+    "equip":"equip",
+    "delete":"delete"
+  },
+
+  "Academic":{
+    "check":"Check Overall Graduation progress",
+    "graduation":"Graduation",
+    "tap":"Tap to see grade."
+  },
+
+  "Map":{
+    "location":"Current loaction",
+    "stats":"Player Stats",
+    "turnin-false":"Can't turn in",
+    "turnin-true":"Turn in",
+    "activites":"Activites Here",
+    "store":"Store Here"
+  },
+
+  "Setting":{
+    "setting":"Setting"
+  }
+}

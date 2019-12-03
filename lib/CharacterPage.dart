@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'Character.dart';
 import 'model/Item.dart';
 import 'model/ItemModel.dart';
@@ -72,7 +73,7 @@ class _CharacterPageState extends State<CharacterPage>{
               "${Character.currentHealth}/${Character.maxHealth}",
               style: TextStyle(color: Colors.black),
               ),
-            leading: Text("health",
+            leading: Text(FlutterI18n.translate(context,"Character.health"),
             style: TextStyle(color: Colors.black),
             ),
             lineHeight: MediaQuery.of(context).size.height*0.03,
@@ -88,7 +89,7 @@ class _CharacterPageState extends State<CharacterPage>{
               "${Character.currentMotivation}/${Character.maxMotivation}",
               style: TextStyle(color: Colors.black),
               ),
-            leading: Text("motivaton",
+            leading: Text(FlutterI18n.translate(context,'Character.motivation'),
             style: TextStyle(color: Colors.black),
             ),
             lineHeight: MediaQuery.of(context).size.height*0.03,
@@ -116,7 +117,9 @@ class _CharacterPageState extends State<CharacterPage>{
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          Text("Loadout (${Character.getLoad().length}/4)"),
+          Text( FlutterI18n.translate(context,
+          "Character.loadout")+ 
+          " (${Character.getLoad().length}/4)"),
           _loadoutCheck(),
         ],
       )
@@ -132,7 +135,9 @@ class _CharacterPageState extends State<CharacterPage>{
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Icon(Icons.work),
-              Text("Storage (${Character.getInv().length}/64)"),
+              Text(FlutterI18n.translate(context, 
+              "Character.storage") +
+              "(${Character.getInv().length}/64)"),
             ],
           ),
           SizedBox(
@@ -237,7 +242,8 @@ class _CharacterPageState extends State<CharacterPage>{
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           SimpleDialogOption(
-            child: Text('Use'),
+            child: Text(FlutterI18n.translate(context,
+            "Character.use")),
             onPressed: (){
               setState(() {
                 Character.removeItemInv(item);
@@ -249,7 +255,8 @@ class _CharacterPageState extends State<CharacterPage>{
               },
           ),
           SimpleDialogOption(
-            child: Text('Delete'),
+            child: Text(FlutterI18n.translate(context,
+            "Character.delete")),
             onPressed: (){
               setState(() {
                 Character.removeItemInv(item);
@@ -270,7 +277,8 @@ class _CharacterPageState extends State<CharacterPage>{
               if(item.isInLoadout()==1){
                 return Text("Unequip");
               } else{
-                return Text("Equip");
+                return Text(FlutterI18n.translate(context,
+            "Character.equip"));
               }
             }()),
             onPressed: (){
@@ -302,7 +310,8 @@ class _CharacterPageState extends State<CharacterPage>{
             },
           ),
           SimpleDialogOption(
-            child: Text('Delete'),
+            child: Text(FlutterI18n.translate(context,
+            "Character.delete")),
             onPressed: (){
               setState(() {
                 if(item.isInLoadout()==1){
