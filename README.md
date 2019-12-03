@@ -34,11 +34,11 @@ This project is a starting point for a Flutter application "UOIT GO"
 - [X] Dialogs/pickers
 - [X] Data Table & Chart
 - [X] Snackbars 
-- [ ] Notifications
+- [X] Notifications
 - [X] Local storage
 - [X] Cloud storage
 - [X] Maps
 - [X] Geolocation
 - [X] Geocoding
-- [ ] i18n
+- [X] i18n
 - ~~[ ] HTTP requests~~ No Longer a Requirement 
