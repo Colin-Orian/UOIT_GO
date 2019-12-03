@@ -15,7 +15,6 @@ class _ActivitiesPageState extends State<ActivitesPage>{
   List<Objective> objectives;
   StreamBuilder<QuerySnapshot> streamBuilder;
   String _category = 'All';
-  //TODO read in the objectives from the cloud database and create a list of them
   List<Widget> getAllObj(){
     List<Widget> result =objectives.map((Objective obj){
       return obj.build(context);

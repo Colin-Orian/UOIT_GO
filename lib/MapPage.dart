@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:location/location.dart';
-import 'GPSInfo.dart';
+
+import 'Notifications.dart';
 import 'Character.dart';
 import 'Objective.dart';
 import 'ActivitesPage.dart';
@@ -17,12 +18,15 @@ class MapPage extends StatefulWidget{
 }
 
 class _MapPageState extends State<MapPage>{
-
+  Notifications _notifications;
   BuildContext context;
   Location _location;
   double _lat;
   double _long;
   _MapPageState(BuildContext context,){
+    _notifications =Notifications();
+    _notifications.init();
+
     this.context =context;
     _location = new Location();
     _location.changeSettings(accuracy: LocationAccuracy.HIGH);
@@ -31,9 +35,12 @@ class _MapPageState extends State<MapPage>{
         setState(() {
           _lat =currentLocation.latitude;
           _long =currentLocation.longitude;  
+          Character.prevLocation = building;
           building = Places.currentPlace(_lat, _long);
           if(null == building){
             building = 'Loading...';
+          }else if(building != Character.prevLocation && Character.prevLocation != 'null'){
+            _notifications.sendNotification('Moved to another location!', building, 'payload');
           }
         }); 
       }
@@ -137,7 +144,7 @@ Row createStats(){
 
   void openStore(){
     //open a new navigator that contains different items
-    Navigator.push(context, MaterialPageRoute(builder: (context) => GPSInfo()));
+    _notifications.sendNotification('title', 'body', 'payload');
   }
 
   @override

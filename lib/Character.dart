@@ -7,7 +7,7 @@ class Character{
   static double maxMotivation;
   static int invSize;
   static String name;
-
+  static String prevLocation;
   static List<Item> _inventory =[];
   static List<Item> _loadout = [];
   static List _activities = [];
