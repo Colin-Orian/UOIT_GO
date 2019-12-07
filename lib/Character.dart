@@ -1,5 +1,5 @@
 import 'model/Item.dart';
-
+import 'Objective.dart';
 class Character{
   static double currentHealth;
   static double maxHealth;
@@ -103,8 +103,11 @@ static void loadCharacter({health,motivation,numInv, characterName}){
     return _loadout;
   }
   
+  static void addAct(Objective obj){
+    _activities.add(obj);
+  }
   //return character activities
-  static List getAct(){
+  static List<Objective> getAct(){
     return _activities;
   }
 

@@ -52,12 +52,12 @@ class Objective{
       }
     );
   }
-  
+
 
   Widget build(BuildContext context){
-    return ListTile(
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween ,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween ,
+      crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Text(goal),
           Text(turnInLoc),
@@ -66,9 +66,7 @@ class Objective{
             icon: Icon(Icons.info),
             onPressed: () => moreInfo(context),
           ),
-          
         ],
-      ),
     );
   }
 }

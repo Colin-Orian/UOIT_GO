@@ -136,10 +136,13 @@ Row createStats(){
 }
 
 //Open a listview of all the activites at the current location
-  void openActivites(){
+  void openActivites() async{
     
-    Navigator.push(context,
+    Objective result = await Navigator.push(context,
      MaterialPageRoute(builder: (context) =>  ActivitesPage(location:building)));
+     if(result != null){
+       Character.addAct(result);
+     }
   }
 
   void openStore(){
