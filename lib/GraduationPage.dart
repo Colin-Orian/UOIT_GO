@@ -5,25 +5,22 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'Course.dart';
 
 //test
-List courses = <Course>[
-    Course("CSCI 4100U","Mobile Development",95.0),
-    Course("CSCI 3055U","Programming Language",63.0),
-    Course("CSCI 2070U","Computational Sci.",50.0),
-    Course("CSCI 4620U","HCI",80.0),
-    Course("CSCI 4000U","Adv. Computer Japhics",34.0),
-    Course("CSCI 3020U","Operating Systems",17.0),
-];
 
 
 class GraduationPage extends StatefulWidget{
   final String title;
-  GraduationPage({Key key,this.title}) : super(key:key);
+  List<Course> courses;
+  GraduationPage({Key key,this.title,this.courses}) : super(key:key);
 
   @override
-  GraduationPageState createState() => GraduationPageState();
+  GraduationPageState createState() => GraduationPageState(courses:this.courses);
 }
 
 class GraduationPageState extends State<GraduationPage>{
+  List<Course> courses;
+
+  GraduationPageState({this.courses});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

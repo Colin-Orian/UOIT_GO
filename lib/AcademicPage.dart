@@ -4,6 +4,7 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'Course.dart';
 import 'package:flip_card/flip_card.dart';
 import 'GraduationPage.dart';
+import 'AddCourse.dart';
 
 class AcademicPage extends StatefulWidget{
   BuildContext context;
@@ -16,6 +17,18 @@ class AcademicPage extends StatefulWidget{
 
 class AcademicPageState extends State<AcademicPage>{
   BuildContext context;
+  List builds;
+  Course newCourse;
+
+  List<Course> courses = <Course>[
+    Course("CSCI 4100U","Mobile Development",95.0),
+    Course("CSCI 3055U","Programming Language",63.0),
+    Course("CSCI 2070U","Computational Sci.",50.0),
+    Course("CSCI 4620U","HCI",80.0),
+    Course("CSCI 4000U","Adv. Computer Japhics",34.0),
+    Course("CSCI 3020U","Operating Systems",17.0),
+  ];
+
 
   AcademicPageState(BuildContext context){
     this.context =context;
@@ -23,41 +36,68 @@ class AcademicPageState extends State<AcademicPage>{
       setState(() {
         
       });
+    }else{
+      builds = <Widget>[
+          // _buildCoures(courses[0]),
+          // _buildCoures(courses[1]),
+          // _buildCoures(courses[2]),
+          // _buildCoures(courses[3]),
+          // _buildCoures(courses[4]),
+          // _buildCoures(courses[5]),
+      ];
     }
   }
   @override
   Widget build(BuildContext context) {
-    List builds;
-    builds = <Widget>[
-          _buildCoures(courses[0]),
-          _buildCoures(courses[1]),
-          _buildCoures(courses[2]),
-          _buildCoures(courses[3]),
-          _buildCoures(courses[4]),
-          _buildCoures(courses[5]),
-        ];
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          child:_buildGradeProgressBtn(),
+    // builds = courses.map((course)=>_buildCoures(course)).toList();
+    return Scaffold( 
+        floatingActionButton: FloatingActionButton(
+          child:  Icon(Icons.add),
+          onPressed: (){
+            setState(() {
+              _addCourse();
+            });
+          },
         ),
-        Flexible(
-          child: ListView(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              children: builds
+        body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            child:_buildGradeProgressBtn(),
+          ),
+          Flexible(
+            child: ListView(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  children: List.generate(courses.length, 
+                    (int index){
+                      return _buildCoures(courses[index], index);
+                    }),
+                ),
             ),
-        ),
-         
-      ],
+          
+        ],
+      )
     );
   }
-
+  Future<Course> _addCourse() async{
+    this.newCourse = await 
+      Navigator.push( context, 
+                      MaterialPageRoute(builder: (context)=>AddCoursePage()));
+    setState(() {
+      if (this.newCourse!=null){
+        print("coures: $newCourse");
+        courses.add(newCourse);  
+      }
+    });
+    print(builds);
+            
+    return newCourse;
+  }
 
   // Build each course card
 
-  Container _buildCoures(Course course){
+  Container _buildCoures(Course course, index){
     Color backgroundColor = course.getColor();
     Color textColorFront = getTextColor(Colors.white);
     Color textColorBack = getTextColor(backgroundColor);
@@ -154,6 +194,16 @@ class AcademicPageState extends State<AcademicPage>{
                         color: textColorBack, 
                         ),
                       ),
+                  ),
+                  Container(
+                    child: IconButton(
+                      icon: Icon(Icons.remove_circle),
+                      onPressed: (){
+                        setState(() {
+                          courses.removeAt(index);
+                        }); 
+                      },
+                    ),
                   )
                 ]
               ),
@@ -228,7 +278,7 @@ class AcademicPageState extends State<AcademicPage>{
                           setState(() {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context)=>GraduationPage())
+                              MaterialPageRoute(builder: (context)=>GraduationPage(courses: courses,))
                             );
                           });
                         },
