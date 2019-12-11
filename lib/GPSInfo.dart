@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:latlong/latlong.dart';
 import 'package:location/location.dart';
 class GPSInfo extends StatefulWidget{
 

@@ -23,6 +23,7 @@ class _MapPageState extends State<MapPage>{
   Location _location;
   double _lat;
   double _long;
+  bool hasObjecitive = true;
   _MapPageState(BuildContext context,){
     _notifications =Notifications();
     _notifications.init();
@@ -49,7 +50,8 @@ class _MapPageState extends State<MapPage>{
   String building;
   Objective objective = new Objective('Academic', 'pizza', 'get pizza', 'No Location', 'good grades', -10, -10);
 
-  //Creates a button to turn in the current objected. disable the button if you aren't in the required location
+  //Creates a button to turn in the current objected.
+  //disable the button if you aren't in the required location
   Widget turnInButton(){
     if(objective.turnInLoc == building){
       return RaisedButton(
@@ -70,6 +72,28 @@ class _MapPageState extends State<MapPage>{
       );
     }
   }
+
+void openObjectives(){
+  Navigator.push(context,
+   MaterialPageRoute(builder: (context) =>  ActivitesPage(location:building)));
+}
+
+Widget displayObjective(){
+  if(hasObjecitive){
+    return objective.build(context);
+  }
+  return Center(
+    child: Column(
+      children: <Widget>[
+        Text("Start a new Objective!"),
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: null,
+        ),
+      ],
+    ),
+  );
+}
 //prompts the user if they want to turn in the objective. If they do, remove the current event
 void turnIn(){
     showDialog(
@@ -87,7 +111,8 @@ void turnIn(){
                 setState(() {
                   Character.currentHealth +=objective.healthChange;
                   Character.currentMotivation +=objective.motivationChange;
-                  objective = new Objective('Health',  'Done', 'done', 'Done', 'Done', 0, 0);     
+                  objective = new Objective('Health',  'Done', 'done', 'Done', 'Done', 0, 0);
+                  hasObjecitive = false;     
                 });
                 Navigator.of(this.context).pop();
                 final snackBar =SnackBar(content: Text('turned in the objective!'));
@@ -163,7 +188,7 @@ Row createStats(){
               "Map.location"
             ),
             style: TextStyle(fontWeight: FontWeight.bold),),
-          objective.build(context),
+          displayObjective(),
           Text(FlutterI18n.translate(
             context,
             "Map.stats"

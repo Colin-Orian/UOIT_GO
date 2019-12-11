@@ -102,7 +102,7 @@ static void loadCharacter({health,motivation,numInv, characterName}){
   static List<Item> getLoad(){
     return _loadout;
   }
-  
+  //Append an objective to the end of the acivities
   static void addAct(Objective obj){
     _activities.add(obj);
   }
