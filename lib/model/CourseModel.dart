@@ -44,4 +44,15 @@ class CourseModel{
     }
     return courses;
   }
+
+  Future<Course> getCourseByName(String name)async {
+    final db = await DBUtils.init();
+    List<Map<String, dynamic>> maps = await db.query('courses',
+      where: 'courseName=?',
+      whereArgs: [name]);
+    if(maps.length > 0){
+      return Course.fromMap(maps[0]);
+    }
+    return null;
+  }
 }
