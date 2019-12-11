@@ -8,6 +8,7 @@ import 'Objective.dart';
 import 'ActivitesPage.dart';
 import 'MapInfo.dart';
 import 'Places.dart';
+import 'ListObjectivesPage.dart';
 class MapPage extends StatefulWidget{
   MapPage({Key key, this.title, this.context}) : super(key: key);
   final BuildContext context;
@@ -23,7 +24,7 @@ class _MapPageState extends State<MapPage>{
   Location _location;
   double _lat;
   double _long;
-  bool hasObjecitive = true;
+  bool hasObjecitive = false;
   _MapPageState(BuildContext context,){
     _notifications =Notifications();
     _notifications.init();
@@ -48,12 +49,12 @@ class _MapPageState extends State<MapPage>{
     });
   }
   String building;
-  Objective objective = new Objective('Academic', 'pizza', 'get pizza', 'No Location', 'good grades', -10, -10);
+  Objective objective;// = new Objective('Academic', 'pizza', 'get pizza', 'No Location', 'good grades', -10, -10);
 
   //Creates a button to turn in the current objected.
   //disable the button if you aren't in the required location
   Widget turnInButton(){
-    if(objective.turnInLoc == building){
+    if(hasObjecitive && objective.turnInLoc == building){
       return RaisedButton(
         child: Text(FlutterI18n.translate(
           context,
@@ -78,6 +79,15 @@ void openObjectives(){
    MaterialPageRoute(builder: (context) =>  ActivitesPage(location:building)));
 }
 
+void selectNewObjective() async{
+  var temp = await Navigator.push(context,
+   MaterialPageRoute(builder: (context)=> ListObjectivesPage(context: context)));
+   if(temp != null){
+     hasObjecitive = true;
+     objective = temp;
+   }
+}
+
 Widget displayObjective(){
   if(hasObjecitive){
     return objective.build(context);
@@ -88,7 +98,7 @@ Widget displayObjective(){
         Text("Start a new Objective!"),
         IconButton(
           icon: Icon(Icons.add),
-          onPressed: null,
+          onPressed: ()=>selectNewObjective(),
         ),
       ],
     ),
@@ -111,7 +121,6 @@ void turnIn(){
                 setState(() {
                   Character.currentHealth +=objective.healthChange;
                   Character.currentMotivation +=objective.motivationChange;
-                  objective = new Objective('Health',  'Done', 'done', 'Done', 'Done', 0, 0);
                   hasObjecitive = false;     
                 });
                 Navigator.of(this.context).pop();
@@ -172,7 +181,7 @@ Row createStats(){
 
   void openStore(){
     //open a new navigator that contains different items
-    _notifications.sendNotification('title', 'body', 'payload');
+    
   }
 
   @override

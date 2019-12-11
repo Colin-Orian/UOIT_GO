@@ -8,35 +8,37 @@ class Objective{
   //NOTE: NOT ALL OF THESE WILL BE STRING
   String reference;
   String type;
-  String descip;
   String goal;
+  String startLoc;
   String turnInLoc;
   String reward;
   int healthChange;
   int motivationChange;
+  int gradeInc;
 
 
-  Objective(this.type, this.descip, this.goal, this.turnInLoc, this.reward, this.healthChange, this.motivationChange);
+  Objective(this.goal,this.startLoc,  this.turnInLoc, this.reward, this.healthChange, this.motivationChange);
 
 
   Objective.fromMap(Map<String, dynamic> map, this.reference){
-    this.type = map['type'];
-    this.descip = map['desc'];
     this.goal = map['goal'];
+    this.startLoc = map['startLoc'];
     this.turnInLoc = map['turnIn'];
     this.reward = map['reward'];
     this.healthChange = map['health'];
     this.motivationChange = map['motiv'];
+    this.gradeInc = map['gradeInc'];
   }
 
   Map<String, dynamic> toMap(){
     return {
-      'type': this.type,
-      'desc': this.descip,
       'goal': this.goal,
       'reward': this.reward,
       'health': this.healthChange,
       'motiv': this.motivationChange,
+      'turnIn': this.turnInLoc,
+      'startLoc': this.startLoc,
+      'gradeInc': this.gradeInc,
     };
   }
   //Displays a pop up that gives more information about the objective
@@ -47,7 +49,14 @@ class Objective{
       builder: (context){
         return AlertDialog(
           title: Text(goal),
-          content: Text(descip),
+          content: Column(
+            children: <Widget>[
+              Text('Health change: $healthChange'),
+              Text('Motivation change: $motivationChange'),
+              Text('Course: $reward'),
+              Text('Grade Increaes: $gradeInc'),
+            ],
+          ),
         );
       }
     );
@@ -55,18 +64,22 @@ class Objective{
 
 
   Widget build(BuildContext context){
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween ,
-      crossAxisAlignment: CrossAxisAlignment.center,
+    return Container(
+      child: Column(
         children: <Widget>[
-          Text(goal),
-          Text(turnInLoc),
-          Text(reward),
-          IconButton(
-            icon: Icon(Icons.info),
-            onPressed: () => moreInfo(context),
+          Row(
+            children: <Widget>[
+              Text(goal),
+              IconButton(
+                  icon: Icon(Icons.info),
+                  onPressed: () => moreInfo(context),
+                ),
+            ],
+            mainAxisAlignment: MainAxisAlignment.center,
           ),
+          Text('Turn in at $turnInLoc',overflow: TextOverflow.fade,),
         ],
+      ),
     );
   }
 }

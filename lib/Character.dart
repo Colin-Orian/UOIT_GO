@@ -10,7 +10,7 @@ class Character{
   static String prevLocation;
   static List<Item> _inventory =[];
   static List<Item> _loadout = [];
-  static List _activities = [];
+  static List<Objective> _activities = [];
 
 static void loadCharacter({health,motivation,numInv, characterName}){
     maxHealth=health;
@@ -108,6 +108,7 @@ static void loadCharacter({health,motivation,numInv, characterName}){
   }
   //return character activities
   static List<Objective> getAct(){
+    print(_activities.length);
     return _activities;
   }
 

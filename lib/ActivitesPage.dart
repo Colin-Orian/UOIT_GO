@@ -22,10 +22,10 @@ class _ActivitiesPageState extends State<ActivitesPage>{
   _ActivitiesPageState(String location){
     this.location = location;
     this.tiles = new List<Widget>();
-    this.stream = _category == 'All'?  Firestore.instance.collection('Objectives').snapshots() :
-                  Firestore.instance.collection('Objectives').where('type', isEqualTo:_category).snapshots();
-    
-  }
+    //Filter the collection for all objectives that start at the player's location
+    this.stream = _category == 'All'?  Firestore.instance.collection('Objectives').where('startLoc', isEqualTo: location).snapshots() :
+                  Firestore.instance.collection('Objectives').where('startLoc', isEqualTo:location).snapshots();
+  }             
 
   void select(int index){
       _selectedIndex = index;
@@ -38,7 +38,6 @@ class _ActivitiesPageState extends State<ActivitesPage>{
     for(int i = 0; i < objectives.length; i ++){
       ListTile temp;
       if(_selectedIndex == i){
-        print("this was selected");
         temp =ListTile(
           title: Row(children:[ 
             IconButton(icon: Icon(Icons.check), onPressed: () => select(-1)),
@@ -89,8 +88,6 @@ class _ActivitiesPageState extends State<ActivitesPage>{
             }else{
               Navigator.of(context).pop(null)
             }
-            
-            
           },
       ),
     );
