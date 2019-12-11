@@ -13,13 +13,15 @@ class GraduationPage extends StatefulWidget{
   GraduationPage({Key key,this.title,this.courses}) : super(key:key);
 
   @override
-  GraduationPageState createState() => GraduationPageState(courses:this.courses);
+  GraduationPageState createState() => GraduationPageState(this.courses);
 }
 
 class GraduationPageState extends State<GraduationPage>{
-  List<Course> courses;
+  List<Course> courses=[];
 
-  GraduationPageState({this.courses});
+  GraduationPageState(List<Course> courses){
+    this.courses = courses;
+  }
 
   @override
   Widget build(BuildContext context) {

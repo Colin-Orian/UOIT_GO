@@ -37,14 +37,7 @@ class AcademicPageState extends State<AcademicPage>{
         
       });
     }else{
-      builds = <Widget>[
-          // _buildCoures(courses[0]),
-          // _buildCoures(courses[1]),
-          // _buildCoures(courses[2]),
-          // _buildCoures(courses[3]),
-          // _buildCoures(courses[4]),
-          // _buildCoures(courses[5]),
-      ];
+      builds = <Widget>[];
     }
   }
   @override
