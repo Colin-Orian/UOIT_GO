@@ -14,7 +14,6 @@ This project is a starting point for a Flutter application "UOIT GO"
 - [x] Shows Details of Players health and motivation
 - [x] Shows Current inventory
 - [x] Shows current loadout in visual form
-- [ ] Shows longer list of all player activities needed including school tasks
 
 ### Academic Page
 - [x] Shows current courses and grades.
@@ -27,6 +26,8 @@ This project is a starting point for a Flutter application "UOIT GO"
 - [x] Shows Currently pinned objective
 - [x] Shows basics of players well being.
 - [ ] ~~Shows notifications of anything new~~
+- [x] Shows notifications of Places
+- [ ] Shows longer list of all player activities needed including school tasks
 
 
 ### Part One Requirements
