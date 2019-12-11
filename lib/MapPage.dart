@@ -186,7 +186,7 @@ Row createStats(){
             FlutterI18n.translate(
               context,
               "Map.location"
-            ),
+            )+" $building",
             style: TextStyle(fontWeight: FontWeight.bold),),
           displayObjective(),
           Text(FlutterI18n.translate(
