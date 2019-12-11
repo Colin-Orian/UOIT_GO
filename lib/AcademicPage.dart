@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'Course.dart';
+import 'package:uoit_go/model/CourseModel.dart';
+import 'model/Course.dart';
 import 'package:flip_card/flip_card.dart';
 import 'GraduationPage.dart';
 import 'AddCourse.dart';
@@ -9,6 +10,7 @@ import 'AddCourse.dart';
 class AcademicPage extends StatefulWidget{
   BuildContext context;
   final String title;
+
   AcademicPage({Key key,this.title,this.context});
 
   @override
@@ -17,32 +19,49 @@ class AcademicPage extends StatefulWidget{
 
 class AcademicPageState extends State<AcademicPage>{
   BuildContext context;
-  List builds;
   Course newCourse;
+  final _model = CourseModel();
 
   List<Course> courses = <Course>[
-    Course("CSCI 4100U","Mobile Development",95.0),
-    Course("CSCI 3055U","Programming Language",63.0),
-    Course("CSCI 2070U","Computational Sci.",50.0),
-    Course("CSCI 4620U","HCI",80.0),
-    Course("CSCI 4000U","Adv. Computer Japhics",34.0),
-    Course("CSCI 3020U","Operating Systems",17.0),
+    // Course("CSCI 4100U","Mobile Development",95.0),
+    // Course("CSCI 3055U","Programming Language",63.0),
+    // Course("CSCI 2070U","Computational Sci.",50.0),
+    // Course("CSCI 4620U","HCI",80.0),
+    // Course("CSCI 4000U","Adv. Computer Japhics",34.0),
+    // Course("CSCI 3020U","Operating Systems",17.0),
   ];
 
+  void _getCourses() async {
+    this.courses = await _model.getAllCourses();
+    // print(this.courses);
+  }
+  
+  void _insertCourse(Course course) async{
+    _model.insertCourse(course);
+  }
+
+  void _deleteCoures(Course course) async{
+    _model.deleteCourse(course);
+  }
+
+  @override
+  void initState(){
+    _getCourses();
+    super.initState();
+  }
 
   AcademicPageState(BuildContext context){
     this.context =context;
-    if(mounted){
-      setState(() {
-        
-      });
-    }else{
-      builds = <Widget>[];
-    }
+
+    _getCourses();
   }
+
   @override
   Widget build(BuildContext context) {
-    // builds = courses.map((course)=>_buildCoures(course)).toList();
+    print(this.courses.length);
+    setState(() {
+      _getCourses();
+    });
     return Scaffold( 
         floatingActionButton: FloatingActionButton(
           child:  Icon(Icons.add),
@@ -79,18 +98,19 @@ class AcademicPageState extends State<AcademicPage>{
                       MaterialPageRoute(builder: (context)=>AddCoursePage()));
     setState(() {
       if (this.newCourse!=null){
-        print("coures: $newCourse");
+        // print("coures: $newCourse");
         courses.add(newCourse);  
+        _insertCourse(newCourse);
       }
     });
-    print(builds);
+
             
     return newCourse;
   }
 
   // Build each course card
 
-  Container _buildCoures(Course course, index){
+  Container _buildCoures(Course course,int index){
     Color backgroundColor = course.getColor();
     Color textColorFront = getTextColor(Colors.white);
     Color textColorBack = getTextColor(backgroundColor);
@@ -193,7 +213,8 @@ class AcademicPageState extends State<AcademicPage>{
                       icon: Icon(Icons.remove_circle),
                       onPressed: (){
                         setState(() {
-                          courses.removeAt(index);
+                          Course rcourse = courses.removeAt(index);
+                          _deleteCoures(rcourse);
                         }); 
                       },
                     ),
@@ -230,21 +251,27 @@ class AcademicPageState extends State<AcademicPage>{
   }
 
   Widget _buildGradeProgressBtn(){
-    //TODO From Database
-    List<Course> courseList = courses;
-    int passedNum = 0;
-    for (int i=0;i<courseList.length;i++){
-      if(courseList[i].passed)
-        passedNum++;
-    } 
-    double progress = (passedNum / courseList.length);  
+    double progress;
+    if(this.courses!=null){
+      if (this.courses.length>0){
+        List<Course> courseList = this.courses;
+        int passedNum = 0;
+        for (int i=0;i<courseList.length;i++){
+          if(courseList[i].passed)
+            passedNum++;
+        } 
+        progress = (passedNum / courseList.length);  
+      }else{
+        progress = 1;
+      }
+    }
 
     return GestureDetector(
       onTap:(){
         setState(() {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context)=>GraduationPage())
+            MaterialPageRoute(builder: (context)=>GraduationPage(courses: this.courses,))
           );
         });
       },
@@ -271,7 +298,7 @@ class AcademicPageState extends State<AcademicPage>{
                           setState(() {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context)=>GraduationPage(courses: courses,))
+                              MaterialPageRoute(builder: (context)=>GraduationPage(courses: this.courses,))
                             );
                           });
                         },

@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
-import 'Course.dart';
-
-//test
+import 'model/Course.dart';
 
 
 class GraduationPage extends StatefulWidget{
   final String title;
-  List<Course> courses;
+  List<Course> courses=[];
   GraduationPage({Key key,this.title,this.courses}) : super(key:key);
 
   @override
@@ -20,7 +18,11 @@ class GraduationPageState extends State<GraduationPage>{
   List<Course> courses=[];
 
   GraduationPageState(List<Course> courses){
-    this.courses = courses;
+    if (courses.length==0 || courses == null){
+      this.courses = [Course("N/A","N/A",100)];
+    }else {
+      this.courses = courses;
+    }
   }
 
   @override
@@ -81,12 +83,13 @@ class GraduationPageState extends State<GraduationPage>{
   Widget _buildPie(BuildContext context){
     var passNum=0;  
     var failedNum=0;
-
-    for (int i=0 ;i<courses.length;i++){
-      if(courses[i].passed)
-        passNum++;
-      else
-        failedNum++;
+    if(courses.length>0 && courses!=null){
+      for (int i=0 ;i<courses.length;i++){
+        if(courses[i].passed)
+          passNum++;
+        else
+          failedNum++;
+      }
     }
 
     var data = [passNum,failedNum];
