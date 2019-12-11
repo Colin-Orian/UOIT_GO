@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:uoit_go/Course.dart';
+import 'model/Course.dart';
+import 'dart:math';
 
 class AddCoursePage extends StatefulWidget{
   AddCoursePage({Key key}):super(key:key);
@@ -14,6 +15,7 @@ class AddCoursePageState extends State<AddCoursePage>{
   String courseName; 
   String courseId;
   double grade; 
+  final _formKey = GlobalKey<AddCoursePageState>();
 
   @override
   Widget build(BuildContext context) {
@@ -28,73 +30,75 @@ class AddCoursePageState extends State<AddCoursePage>{
             },
           ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(10.0),
-              ),
-              Text("Coures Name:"),
-              Container(
-                width: MediaQuery.of(context).size.width*0.6,
-                padding: EdgeInsets.all(10.0),
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: "Coures Name"
-                  ),
-                  onChanged: (val){
-                    this.courseName = val;
-                  },
+      body: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(10.0),
                 ),
-              ),
-            ],
-          ),
-          
-          Row(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(10.0),
-              ),
-              Text("Coures ID:"),
-              Container(
-                width: MediaQuery.of(context).size.width*0.6,
-                padding: EdgeInsets.all(10.0),
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: "Coures Id"
+                Text("Coures Name:"),
+                Container(
+                  width: MediaQuery.of(context).size.width*0.6,
+                  padding: EdgeInsets.all(10.0),
+                  child:TextFormField(
+                    decoration: InputDecoration(
+                      hintText: "Coures Name"
+                    ),
+                    onChanged: (val){
+                      this.courseName = val;
+                    },
                   ),
-                  onChanged: (val){
-                    this.courseId= val;
-                  },
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
+            
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                ),
+                Text("Coures ID:"),
+                Container(
+                  width: MediaQuery.of(context).size.width*0.6,
+                  padding: EdgeInsets.all(10.0),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      hintText: "Coures Id"
+                    ),
+                    onChanged: (val){
+                      this.courseId= val;
+                    },
+                  ),
+                ),
+              ],
+            ),
 
-          Row(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(10.0),
-              ),
-              Text("Inital Grade:"),
-              Container(
-                width: MediaQuery.of(context).size.width*0.6,
-                padding: EdgeInsets.all(10.0),
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: "Grade"
-                  ),
-                  onChanged: (val){
-                    this.grade = double.parse(val);
-                  },
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(10.0),
                 ),
-              ),
-            ],
-          ),
-
-        ],
+                Text("Inital Grade:"),
+                Container(
+                  width: MediaQuery.of(context).size.width*0.6,
+                  padding: EdgeInsets.all(10.0),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      hintText: "Grade"
+                    ),
+                    onChanged: (val){
+                      this.grade = max(0, min(double.parse(val),100));
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.save),
