@@ -13,6 +13,8 @@ class DBUtils {
         }
         //inventory storage
         db.execute('CREATE TABLE inventory_items(id INTEGER PRIMARY KEY, type TEXT, description TEXT,name TEXT, health REAL, motivation REAL, iconID INTEGER, inLoadout INTEGER)');
+        //character storage
+        db.execute('CREATE TABLE character_save(name TEXT PRIMARY KEY, curHealth REAL, maxHealth REAL, curMotiv REAL, maxMotiv REAL, invSize INTEGER, prevLoc TEXT)');
       },
       version: 1,
     );

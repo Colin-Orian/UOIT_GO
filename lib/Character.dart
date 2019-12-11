@@ -131,4 +131,29 @@ static void loadCharacter({health,motivation,numInv, characterName}){
   static bool isLoadFull(){
     return _loadout.length==4;
   }
+
+
+
+  Character.fromMap(Map<String,dynamic> map){
+    currentHealth=map['curHealth'];
+    maxHealth=map['maxHealth'];
+    currentMotivation=map['curMotiv'];
+    maxMotivation=map['maxMotiv'];
+    invSize=map['invSize'];
+    name=map['name'];
+    prevLocation=map['prevLoc'];
+  }
+
+  static Map<String,dynamic> toMap(){
+    return{
+      'name':name,
+      'curHealth':currentHealth,
+      'maxHealth':maxHealth,
+      'curMotiv':currentMotivation,
+      'maxMotiv':maxMotivation,
+      'invSize':invSize,
+      'prevLoc':prevLocation
+    };
+  }
+
 }
