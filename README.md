@@ -10,7 +10,7 @@ This project is a starting point for a Flutter application "UOIT GO"
 
 ## TODO List
 
-### Character page (Home Page Maybe?)
+### Character page
 - [x] Shows Details of Players health and motivation
 - [x] Shows Current inventory
 - [x] Shows current loadout in visual form
