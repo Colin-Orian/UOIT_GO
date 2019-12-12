@@ -5,7 +5,9 @@ import 'package:sqflite/sqflite.dart';
 import 'db_utils.dart';
 import 'Item.dart';
 
+//used for database access for the item
 class ItemModel{
+  //insert item into database
   Future<int> insertItem(Item item) async {
     final db = await DBUtils.init();
     return await db.insert(
@@ -15,6 +17,7 @@ class ItemModel{
     );
   }
 
+//update item
   Future<int> updateItem(Item item) async{
     final db = await DBUtils.init();
     return await db.update(
@@ -25,6 +28,8 @@ class ItemModel{
     );
   }
 
+
+//delete item
   Future<int> deleteItem(Item item) async{
     final db = await DBUtils.init();
     return await db.delete(
@@ -34,6 +39,7 @@ class ItemModel{
     );
   }
 
+//return all items in database
   Future<List<Item>> getAllItems() async {
     final db = await DBUtils.init();
     List<Map<String,dynamic>> maps = await db.query('inventory_items');

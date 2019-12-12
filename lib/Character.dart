@@ -1,5 +1,7 @@
 import 'model/Item.dart';
 import 'Objective.dart';
+
+//
 class Character{
   static double currentHealth;
   static double maxHealth;
@@ -12,6 +14,8 @@ class Character{
   static List<Item> _loadout = [];
   static List<Objective> _activities = [];
 
+
+//loads initial values for character on launch
 static void loadCharacter({health,motivation,numInv, characterName}){
     maxHealth=health;
     maxMotivation=motivation;
@@ -23,6 +27,7 @@ static void loadCharacter({health,motivation,numInv, characterName}){
     currentMotivation=maxMotivation;
   }
 
+//equips item along with checking conditions around max and min health
   static void equipModifier(Item item){
     if(maxHealth+item.getHealthChange()>=0){
       maxHealth+=item.getHealthChange();
@@ -43,6 +48,8 @@ static void loadCharacter({health,motivation,numInv, characterName}){
     }
   }
 
+
+//remove item from loadout and remove corresponding effects
   static void unequipModifier(Item item){
     if(maxHealth-item.getHealthChange()>=0){
       maxHealth-=item.getHealthChange();
@@ -63,7 +70,7 @@ static void loadCharacter({health,motivation,numInv, characterName}){
     }
   }
 
-
+//use item with corresponding effects, check conditions around max and min health
   static void useConsumable(Item item){
     if(item.getHealthChange()+currentHealth>maxHealth){
       currentHealth=maxHealth;
@@ -81,6 +88,7 @@ static void loadCharacter({health,motivation,numInv, characterName}){
     }
   }
 
+//remove item from inventory
   static void removeItemInv(Item item){
     _inventory.remove(item);
   }
@@ -90,10 +98,12 @@ static void loadCharacter({health,motivation,numInv, characterName}){
     return _inventory;
   }
 
+//sets the characters inventory
   static void setInv(List<Item> inv){
     _inventory=inv;
   }
 
+//sets the characters loadout
   static void setLoadout(List<Item> load){
     _loadout=load;
   }

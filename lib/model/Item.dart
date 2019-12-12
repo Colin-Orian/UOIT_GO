@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//Class stores the information of items for the users inventory
 class Item {
   String _type;
   int _pictureID;
@@ -35,6 +36,7 @@ class Item {
     }
   }
 
+  //sets whether or not the item is equiped or not.  
   void setEquip(int equip){
     _inLoadout=equip;
   }
@@ -67,6 +69,8 @@ class Item {
     };
   }
 
+
+//Changes colours of item stats with green for positive and red for negative.
   Color numColor(double value){
     if(value>0){
       return Colors.green;
@@ -77,6 +81,7 @@ class Item {
     }
   }
 
+//returns row widget for title of dialog.
   Widget itemTitle(BuildContext context){
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -96,10 +101,13 @@ class Item {
       ],
     );
   }
+
+  //returns the icon of the item
   Icon getPicture(){
     return Icon(IconData(_pictureID,fontFamily: 'MaterialIcons'));
   }
 
+//returns description of item
   Widget itemDesc(BuildContext context){
     return Container(
       padding: EdgeInsets.symmetric(horizontal:5.0),
@@ -108,6 +116,8 @@ class Item {
     );
   }
 
+
+//returns the column showing the effects of the item in the dialog.
   Widget itemEffect(BuildContext context){
     if(_type=="Consumable"){
       return Column(
