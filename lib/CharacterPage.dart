@@ -115,7 +115,7 @@ class _CharacterPageState extends State<CharacterPage>{
         children: Character.getLoad().map((item)=>buildItem(context,item)).toList(),
       );
     }else{
-      return Text('enpty loadout');
+      return Text('Empty loadout');
     }
   }
 
