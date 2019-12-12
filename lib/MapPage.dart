@@ -9,6 +9,13 @@ import 'ActivitesPage.dart';
 import 'MapInfo.dart';
 import 'Places.dart';
 import 'ListObjectivesPage.dart';
+import 'model/CourseModel.dart';
+import 'model/Course.dart';
+/* 
+  This class lets the user see where they are on Campus and allows them to interact with
+  the different locations. For example, the user can turn in an objective or look at the objectives 
+  at the current building
+*/
 class MapPage extends StatefulWidget{
   MapPage({Key key, this.title, this.context}) : super(key: key);
   final BuildContext context;
@@ -22,6 +29,7 @@ class _MapPageState extends State<MapPage>{
   Notifications _notifications;
   BuildContext context;
   Location _location;
+  final CourseModel _model =CourseModel();
   double _lat;
   double _long;
   bool hasObjecitive = false;
@@ -73,12 +81,8 @@ class _MapPageState extends State<MapPage>{
       );
     }
   }
-
-void openObjectives(){
-  Navigator.push(context,
-   MaterialPageRoute(builder: (context) =>  ActivitesPage(location:building)));
-}
-
+//When the user clicks to add a new objective, open a window to let the user to select an objective
+//If the user selects an objective, set it as the current objective
 void selectNewObjective() async{
   var temp = await Navigator.push(context,
    MaterialPageRoute(builder: (context)=> ListObjectivesPage(context: context)));
@@ -87,7 +91,7 @@ void selectNewObjective() async{
      objective = temp;
    }
 }
-
+//If the user has a current objective, show info about it. Otherwise, prompt the user to select one
 Widget displayObjective(){
   if(hasObjecitive){
     return objective.build(context);
@@ -105,7 +109,8 @@ Widget displayObjective(){
   );
 }
 //prompts the user if they want to turn in the objective. If they do, remove the current event
-void turnIn(){
+void turnIn() async{
+    Course course = await _model.getCourseByName(objective.reward);
     showDialog(
       context: this.context,
       barrierDismissible: false,
@@ -118,9 +123,26 @@ void turnIn(){
               //OnPressed will change the current objective to empty and do the required
               //Changes to the character's inventory / stats
               onPressed: (){
+                if(course.grade + objective.gradeInc > 100){
+                  course.grade = 100;
+                }else{
+                  course.grade +=objective.gradeInc;
+                }
+                //Turning in an objective changes a character's health and motivation. 
                 setState(() {
-                  Character.currentHealth +=objective.healthChange;
-                  Character.currentMotivation +=objective.motivationChange;
+                  _model.updateCourse(course);
+                  //Prevent health from going above the max health
+                  if(Character.currentHealth + objective.healthChange <=Character.maxHealth){
+                    Character.currentHealth +=objective.healthChange;
+                  }else{
+                    Character.currentHealth =Character.maxHealth;
+                  }
+                  if(Character.currentMotivation + objective.motivationChange <=Character.maxMotivation){
+                    Character.currentMotivation +=objective.motivationChange;
+                  }else{
+                    Character.currentMotivation =Character.maxMotivation;
+                  }
+                  
                   hasObjecitive = false;     
                 });
                 Navigator.of(this.context).pop();
@@ -179,10 +201,6 @@ Row createStats(){
      }
   }
 
-  void openStore(){
-    //open a new navigator that contains different items
-    
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -191,41 +209,31 @@ Row createStats(){
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Text(
+          Text( //Show the current location
             FlutterI18n.translate(
               context,
               "Map.location"
             )+" $building",
             style: TextStyle(fontWeight: FontWeight.bold),),
           displayObjective(),
+          //Character stats
           Text(FlutterI18n.translate(
             context,
             "Map.stats"
-          )),
+          ), style: TextStyle(fontWeight: FontWeight.bold),),
           createStats(),
           turnInButton(),
-          Row(
+          Row( //Activitities button
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
                 padding:EdgeInsets.symmetric(horizontal: 8.0),
                 child: RaisedButton(
-                  
                   child: Text(FlutterI18n.translate(
                     context,
                     "Map.activites"
                   )),
                   onPressed: () => openActivites(),
-                ),
-              ),
-              Container(
-                padding:EdgeInsets.symmetric(horizontal: 8.0),
-                child: RaisedButton(
-                  child: Text(FlutterI18n.translate(
-                    context,
-                    "Map.store"
-                  )),
-                  onPressed: () => openStore(),
                 ),
               ),
             ],

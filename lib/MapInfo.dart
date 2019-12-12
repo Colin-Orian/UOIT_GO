@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
+
+//This class builds the Map widget and 
+//moves the Map code out of the MapPage file to reduce the class size
 class MapInfo extends StatelessWidget{
   MapInfo({this.context, double lat, double long}) :  _lat = lat, _long = long;
   final double _lat;
@@ -12,7 +15,7 @@ class MapInfo extends StatelessWidget{
     if(_lat == null || _long == null){
       return Container(
         height: 100,
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(), //The location hasn't be detected yet. Show progress
       );
     }
     return FlutterMap(

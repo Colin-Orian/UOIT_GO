@@ -54,6 +54,11 @@ class AcademicPageState extends State<AcademicPage>{
     this.context =context;
 
     _getCourses();
+     //There's no courses. We need one to show the objectives work
+    if(courses.length == 0){
+      Course mobDev = Course('CSCI 4100U', 'Mobile Dev', 50.0);
+      _insertCourse(mobDev);
+    }
   }
 
   @override

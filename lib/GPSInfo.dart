@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+
+//NOTE: THIS CLASS WAS USED FOR FINDING LOCATION OF BUILDINGS. IT ISN'T A PART OF THE APPLICATION
 class GPSInfo extends StatefulWidget{
 
   _GPSInfoState createState() => _GPSInfoState();
@@ -12,6 +14,7 @@ class _GPSInfoState extends State<GPSInfo>{
   _GPSInfoState(){
     _location = new Location();
   }
+  //get the latitude and longitude and update the lat and long
   getLocation() async{
     LocationData data = await _location.getLocation();
     setState(() {
