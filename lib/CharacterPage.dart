@@ -6,6 +6,8 @@ import 'model/ItemModel.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
+//class to show the character page of the application
 class CharacterPage extends StatefulWidget{
   BuildContext context;
   CharacterPage({Key key,this.context}):super(key:key);
@@ -19,7 +21,7 @@ class _CharacterPageState extends State<CharacterPage>{
   BuildContext context;
   final _model = ItemModel();
   bool isInitLaunch=true;
-  //Test Character  
+  //initial setting of characters inventory from database
   _CharacterPageState(context){
     this.context=context;
     _setInventory();
@@ -39,6 +41,7 @@ class _CharacterPageState extends State<CharacterPage>{
     );
   }
 
+//sets the characters inventory and loadout from database
   Future<void> _setInventory() async {
     List<Item>  temp = await _model.getAllItems();
     List<Item> loadoutTemp = [];
@@ -104,6 +107,7 @@ class _CharacterPageState extends State<CharacterPage>{
     );
   }
 
+//shows message if empty loadout. otherwise displays items
   Widget _loadoutCheck(){
     if(Character.getInv().length != 0){
       return Row(
@@ -111,9 +115,11 @@ class _CharacterPageState extends State<CharacterPage>{
         children: Character.getLoad().map((item)=>buildItem(context,item)).toList(),
       );
     }else{
-      return Text('No items. :(');
+      return Text('Empty loadout');
     }
   }
+
+  //displays users loadout with item count
   Widget _loadoutProfile(){
     return Container(
       height: MediaQuery.of(context).size.height*0.15,
@@ -129,6 +135,8 @@ class _CharacterPageState extends State<CharacterPage>{
     );
   }
 
+
+//Displays users inventory along with the amount of items
   Widget _inventoryProfile(){
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 5.0,vertical:5.0),
@@ -154,6 +162,7 @@ class _CharacterPageState extends State<CharacterPage>{
     );
   }
 
+//Button to retrieve free item into users inventory 
   Widget _freeItemButton(){
     return Container(
       padding: EdgeInsets.all(5.0),
@@ -196,6 +205,7 @@ class _CharacterPageState extends State<CharacterPage>{
     );
   }
 
+//takes in the item class and builds widget
   Widget buildItem(BuildContext context, Item item){
     return Container(
       decoration: BoxDecoration(
@@ -213,6 +223,7 @@ class _CharacterPageState extends State<CharacterPage>{
     );
   }
 
+//builds dialog when user clicks on item
   Future<void>_itemDetailDialog(BuildContext context, Item item)async{
     var chocie=await showDialog<bool>(
       context: context,
@@ -239,6 +250,8 @@ class _CharacterPageState extends State<CharacterPage>{
     );
   }
 
+//different options for dialog based on if consumable or modifier.
+//consumables can be used, modifiers can be equiped.
   Widget _itemDialogOptions(BuildContext context, Item item){
     if(item.getType()=="Consumable"){
       return Row(
@@ -332,6 +345,7 @@ class _CharacterPageState extends State<CharacterPage>{
     }
   }
 
+//retrieves random item from firebase database.
   void _randomItem() {
     List<Item> itemPull=[];
     final items = Firestore.instance.collection('items');
