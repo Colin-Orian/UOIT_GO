@@ -10,7 +10,7 @@ import 'AddCourse.dart';
 class AcademicPage extends StatefulWidget{
   BuildContext context;
   final String title;
-
+  
   AcademicPage({Key key,this.title,this.context});
 
   @override
@@ -21,7 +21,6 @@ class AcademicPageState extends State<AcademicPage>{
   BuildContext context;
   Course newCourse;
   final _model = CourseModel();
-
   List<Course> courses = <Course>[
     // Course("CSCI 4100U","Mobile Development",95.0),
     // Course("CSCI 3055U","Programming Language",63.0),
@@ -54,11 +53,6 @@ class AcademicPageState extends State<AcademicPage>{
     this.context =context;
 
     _getCourses();
-     //There's no courses. We need one to show the objectives work
-    if(courses.length == 0){
-      Course mobDev = Course('CSCI 4100U', 'Mobile Dev', 50.0);
-      _insertCourse(mobDev);
-    }
   }
 
   @override
